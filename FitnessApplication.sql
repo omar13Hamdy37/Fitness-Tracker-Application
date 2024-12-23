@@ -18,6 +18,17 @@ GO
 
 
 ------------Table Creation-----------------
+
+create table Users 
+(
+Username varchar(50) not null,
+[Password] varchar(50) not null,
+type_of_user VARCHAR(20) NOT NULL,
+PRIMARY KEY (Username),
+CONSTRAINT chk_type_of_user CHECK (type_of_user IN ('admin', 'member', 'coach', 'academy'))
+);
+
+
 create table FitnessGoals
 (  
 GoalName varchar(50) not null,
@@ -37,6 +48,7 @@ Primary Key(DietID)
 )
 create table Members
 (  
+
 Fname varchar(50) not null,
 Lname varchar(50) not null,
 MemberID int,
@@ -49,6 +61,11 @@ Points int not null,
 Gender char(1) not null,
 FitnessGoalID int,
 DietID int,
+Username varchar(50) not null,
+
+Foreign Key (Username) References Users(Username)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION,
 
 Foreign Key (FitnessGoalID) References FitnessGoals(GoalID)
 ON DELETE SET NULL
@@ -57,6 +74,8 @@ ON UPDATE CASCADE,
 Foreign Key (DietID) References Diets(DietID)
 ON DELETE SET NULL
 ON UPDATE CASCADE,
+
+
 
 primary key(MemberID)
 )
@@ -74,7 +93,12 @@ Accepted BIT not null, -- BIT as bool does not exist in sql. 1 = true, 0 = false
 CertificateTitle VARCHAR(100) not null,      
 CertificateDateOfIssue DATE not null,        
 CertificateExpirationDate DATE not null,     
-CertificateIssuingBody VARCHAR(100) not null
+CertificateIssuingBody VARCHAR(100) not null,
+Username varchar(50) not null,
+
+Foreign Key (Username) References Users(Username)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION,
 primary key(CoachID),
 )
 
@@ -158,7 +182,13 @@ Accepted BIT not null, -- BIT as bool does not exist in sql. 1 = true, 0 = false
 CertificateTitle VARCHAR(100) not null,      
 CertificateDateOfIssue DATE not null,        
 CertificateExpirationDate DATE not null,     
-CertificateIssuingBody VARCHAR(100) not null
+CertificateIssuingBody VARCHAR(100) not null,
+
+Username varchar(50) not null,
+
+Foreign Key (Username) References Users(Username)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION,
 primary key(AcademyID),
 )
 
@@ -432,29 +462,119 @@ Primary Key(MemberID,DateTimeLogged)
 
 
 -----------------Inserting values into tables----------------
-INSERT INTO Coaches (Fname, Lname, CoachID, Age, Gender, MemberLimit, Accepted, CertificateTitle, CertificateDateOfIssue, CertificateExpirationDate, CertificateIssuingBody)
-VALUES
-('John', 'Doe', 1, 35, 'M', 15, 1, 'Certified Fitness Coach', '2018-06-15', '2023-06-15', 'International Fitness Federation'),
-('Jane', 'Smith', 2, 42, 'F', 10, 0, 'Certified Yoga Instructor', '2015-03-20', '2025-03-20', 'Yoga Alliance'),
-('Emily', 'Johnson', 3, 28, 'F', 20, 1, 'Strength Training Specialist', '2020-01-10', '2025-01-10', 'National Strength and Conditioning Association'),
-('Michael', 'Williams', 4, 50, 'M', 12, 1, 'Sports Nutrition Expert', '2019-07-25', '2024-07-25', 'Academy of Nutrition and Dietetics'),
-('Olivia', 'Brown', 5, 30, 'F', 18, 0, 'Certified Personal Trainer', '2017-08-05', '2027-08-05', 'American Council on Exercise'),
-('Liam', 'Davis', 6, 33, 'M', 25, 1, 'Pilates Instructor', '2021-11-10', '2026-11-10', 'Pilates Method Alliance'),
-('Sophia', 'Martinez', 7, 38, 'F', 10, 1, 'Dance Fitness Instructor', '2016-04-12', '2026-04-12', 'Zumba Fitness'),
-('Noah', 'Garcia', 8, 45, 'M', 30, 0, 'Rehabilitation Specialist', '2014-05-25', '2024-05-25', 'American Physical Therapy Association'),
-('Isabella', 'Rodriguez', 9, 40, 'F', 12, 1, 'CrossFit Level 1 Trainer', '2019-09-18', '2024-09-18', 'CrossFit Inc.'),
-('Ethan', 'Wilson', 10, 29, 'M', 14, 1, 'Kettlebell Instructor', '2021-03-05', '2026-03-05', 'Kettlebell Athletics'),
-('Mia', 'Lee', 11, 26, 'F', 22, 0, 'Swimming Coach', '2022-07-11', '2027-07-11', 'United States Swimming'),
-('James', 'Harris', 12, 37, 'M', 10, 1, 'Boxing Coach', '2018-11-02', '2023-11-02', 'USA Boxing'),
-('Charlotte', 'Clark', 13, 31, 'F', 8, 1, 'Outdoor Adventure Coach', '2020-06-22', '2025-06-22', 'Outdoor Educators'),
-('Alexander', 'Lewis', 14, 43, 'M', 20, 0, 'Running Coach', '2017-01-18', '2027-01-18', 'USA Track & Field'),
-('Amelia', 'Walker', 15, 50, 'F', 18, 1, 'Mindfulness Coach', '2015-12-01', '2025-12-01', 'International Mindfulness Teachers Association'),
-('Benjamin', 'Young', 16, 32, 'M', 14, 1, 'Cycling Coach', '2018-08-09', '2023-08-09', 'USA Cycling'),
-('Harper', 'Allen', 17, 27, 'F', 12, 0, 'Martial Arts Instructor', '2016-05-14', '2026-05-14', 'World Martial Arts Federation'),
-('Jack', 'King', 18, 34, 'M', 16, 1, 'Strength and Conditioning Coach', '2021-02-20', '2026-02-20', 'National Strength and Conditioning Association'),
-('Ella', 'Scott', 19, 41, 'F', 14, 1, 'Triathlon Coach', '2020-10-30', '2025-10-30', 'USA Triathlon'),
-('Lucas', 'Adams', 20, 28, 'M', 24, 1, 'Soccer Coach', '2019-04-16', '2024-04-16', 'United States Soccer Federation');
 
+
+-- Inserting coaches into Users
+INSERT INTO Users (Username, [Password], type_of_user)
+VALUES
+('john_doe', 'password123', 'coach'),
+('jane_smith', 'password123', 'coach'),
+('emily_johnson', 'password123', 'coach'),
+('michael_williams', 'password123', 'coach'),
+('olivia_brown', 'password123', 'coach'),
+('liam_davis', 'password123', 'coach'),
+('sophia_martinez', 'password123', 'coach'),
+('noah_garcia', 'password123', 'coach'),
+('isabella_rodriguez', 'password123', 'coach'),
+('ethan_wilson', 'password123', 'coach'),
+('miaa_lee', 'password123', 'coach'),
+('james_harris', 'password123', 'coach'),
+('charlotte_clark', 'password123', 'coach'),
+('alexander_lewis', 'password123', 'coach'),
+('amelia_walker', 'password123', 'coach'),
+('benjamin_young', 'password123', 'coach'),
+('harper_allen', 'password123', 'coach'),
+('jack_king', 'password123', 'coach'),
+('ella_scott', 'password123', 'coach'),
+('lucas_adams', 'password123', 'coach');
+
+-- inserting members into users
+
+INSERT INTO Users (Username, [Password], type_of_user)
+VALUES
+('alice_johnson', 'password123', 'member'),
+('bob_smith', 'password123', 'member'),
+('clara_davis', 'password123', 'member'),
+('david_wilson', 'password123', 'member'),
+('eva_martinez', 'password123', 'member'),
+('frank_lopez', 'password123', 'member'),
+('grace_hernandez', 'password123', 'member'),
+('henry_gonzalez', 'password123', 'member'),
+('isla_rodriguez', 'password123', 'member'),
+('jack_brown', 'password123', 'member'),
+('kara_martinez', 'password123', 'member'),
+('liam_taylor', 'password123', 'member'),
+('mia_lee', 'password123', 'member'),
+('nina_scott', 'password123', 'member'),
+('oscar_walker', 'password123', 'member'),
+('penny_adams', 'password123', 'member'),
+('quinn_roberts', 'password123', 'member'),
+('rachel_green', 'password123', 'member'),
+('sam_baker', 'password123', 'member'),
+('tina_harris', 'password123', 'member');
+
+
+INSERT INTO Coaches (Username, Fname, Lname, CoachID, Age, Gender, MemberLimit, Accepted, CertificateTitle, CertificateDateOfIssue, CertificateExpirationDate, CertificateIssuingBody)
+VALUES
+('john_doe', 'John', 'Doe', 1, 35, 'M', 15, 1, 'Certified Fitness Coach', '2018-06-15', '2023-06-15', 'International Fitness Federation'),
+('jane_smith', 'Jane', 'Smith', 2, 42, 'F', 10, 0, 'Certified Yoga Instructor', '2015-03-20', '2025-03-20', 'Yoga Alliance'),
+('emily_johnson', 'Emily', 'Johnson', 3, 28, 'F', 20, 1, 'Strength Training Specialist', '2020-01-10', '2025-01-10', 'National Strength and Conditioning Association'),
+('michael_williams', 'Michael', 'Williams', 4, 50, 'M', 12, 1, 'Sports Nutrition Expert', '2019-07-25', '2024-07-25', 'Academy of Nutrition and Dietetics'),
+('olivia_brown', 'Olivia', 'Brown', 5, 30, 'F', 18, 0, 'Certified Personal Trainer', '2017-08-05', '2027-08-05', 'American Council on Exercise'),
+('liam_davis', 'Liam', 'Davis', 6, 33, 'M', 25, 1, 'Pilates Instructor', '2021-11-10', '2026-11-10', 'Pilates Method Alliance'),
+('sophia_martinez', 'Sophia', 'Martinez', 7, 38, 'F', 10, 1, 'Dance Fitness Instructor', '2016-04-12', '2026-04-12', 'Zumba Fitness'),
+('noah_garcia', 'Noah', 'Garcia', 8, 45, 'M', 30, 0, 'Rehabilitation Specialist', '2014-05-25', '2024-05-25', 'American Physical Therapy Association'),
+('isabella_rodriguez', 'Isabella', 'Rodriguez', 9, 40, 'F', 12, 1, 'CrossFit Level 1 Trainer', '2019-09-18', '2024-09-18', 'CrossFit Inc.'),
+('ethan_wilson', 'Ethan', 'Wilson', 10, 29, 'M', 14, 1, 'Kettlebell Instructor', '2021-03-05', '2026-03-05', 'Kettlebell Athletics'),
+('miaa_lee', 'Mia', 'Lee', 11, 26, 'F', 22, 0, 'Swimming Coach', '2022-07-11', '2027-07-11', 'United States Swimming'),
+('james_harris', 'James', 'Harris', 12, 37, 'M', 10, 1, 'Boxing Coach', '2018-11-02', '2023-11-02', 'USA Boxing'),
+('charlotte_clark', 'Charlotte', 'Clark', 13, 31, 'F', 8, 1, 'Outdoor Adventure Coach', '2020-06-22', '2025-06-22', 'Outdoor Educators'),
+('alexander_lewis', 'Alexander', 'Lewis', 14, 43, 'M', 20, 0, 'Running Coach', '2017-01-18', '2027-01-18', 'USA Track & Field'),
+('amelia_walker', 'Amelia', 'Walker', 15, 50, 'F', 18, 1, 'Mindfulness Coach', '2015-12-01', '2025-12-01', 'International Mindfulness Teachers Association'),
+('benjamin_young', 'Benjamin', 'Young', 16, 32, 'M', 14, 1, 'Cycling Coach', '2018-08-09', '2023-08-09', 'USA Cycling'),
+('harper_allen', 'Harper', 'Allen', 17, 27, 'F', 12, 0, 'Martial Arts Instructor', '2016-05-14', '2026-05-14', 'World Martial Arts Federation'),
+('jack_king', 'Jack', 'King', 18, 34, 'M', 16, 1, 'Strength and Conditioning Coach', '2021-02-20', '2026-02-20', 'National Strength and Conditioning Association'),
+('ella_scott', 'Ella', 'Scott', 19, 41, 'F', 14, 1, 'Triathlon Coach', '2020-10-30', '2025-10-30', 'USA Triathlon'),
+('lucas_adams', 'Lucas', 'Adams', 20, 28, 'M', 24, 1, 'Soccer Coach', '2019-04-16', '2024-04-16', 'United States Soccer Federation');
+
+
+
+-- Inserting academies into users
+INSERT INTO Users (Username, [Password], type_of_user)
+VALUES
+('KickFitAcademy', 'password123', 'academy'),
+('ZenYogaAcademy', 'password123', 'academy'),
+('RockClimbProAcademy', 'password123', 'academy'),
+('StrengthXAcademy', 'password123', 'academy'),
+('FlexFitAcademy', 'password123', 'academy'),
+('TriathleteAcademy', 'password123', 'academy'),
+('CrossFitNationAcademy', 'password123', 'academy'),
+('PilatesCoreAcademy', 'password123', 'academy'),
+('BoxingProAcademy', 'password123', 'academy'),
+('EnduranceFitnessAcademy', 'password123', 'academy'),
+('YogaFlowAcademy', 'password123', 'academy'),
+('ClimbingEdgeAcademy', 'password123', 'academy'),
+('FitDanceAcademy', 'password123', 'academy'),
+('MindBodyAcademy', 'password123', 'academy'),
+('TrailRunnerAcademy', 'password123', 'academy'),
+('BikramYogaAcademy', 'password123', 'academy'),
+('MixedMartialArtsAcademy', 'password123', 'academy'),
+('PowerCycleAcademy', 'password123', 'academy'),
+('BeachFitAcademy', 'password123', 'academy'),
+('StrengthLabAcademy', 'password123', 'academy');
+
+-- Inserting our first admin
+INSERT INTO Users (Username, [Password], type_of_user)
+VALUES
+('admin1', 'password123', 'admin');
+
+-- Inserting generic users to be used for testing
+--INSERT INTO Users (Username, [Password], type_of_user)
+--VALUES
+--('generic_member', 'password123', 'member'),
+--('generic_coach', 'password123', 'coach'),
+--('generic_academy', 'password123', 'academy'),
+--('generic_coach', 'password123', 'coach'),
 
 INSERT INTO Badges (BadgeName, BadgeID, Description, PointsNeeded)
 VALUES
@@ -517,29 +637,29 @@ VALUES
 (4, 'A diet that includes all food groups, focusing on balance and moderation.', 'Omnivore'),
 (5, 'A diet with high fat, adequate protein, and low carbohydrates, promoting ketosis for weight loss.', 'Keto');
 
-
-INSERT INTO Members (Fname, Lname, MemberID, Age, Weight, Height, AllowedCalorieIntake, Streak, Points, Gender, FitnessGoalID, DietID)
+INSERT INTO Members (Username, Fname, Lname, MemberID, Age, Weight, Height, AllowedCalorieIntake, Streak, Points, Gender, FitnessGoalID, DietID)
 VALUES
-('Alice', 'Johnson', 1, 25, 70.5, 165.3, 2000, 7, 150, 'F', 1, 1),  
-('Bob', 'Smith', 2, 32, 85.0, 178.0, 2500, 12, 200, 'M', 2, 2),  
-('Clara', 'Davis', 3, 28, 60.2, 160.5, 1800, 15, 180, 'F', 3, 3),  
-('David', 'Wilson', 4, 35, 92.3, 183.2, 2700, 8, 210, 'M', 4, 4),  
-('Eva', 'Martinez', 5, 26, 75.0, 167.0, 2200, 10, 170, 'F', 5, 5),  
-('Frank', 'Lopez', 6, 30, 78.5, 172.5, NULL, 0, 0, 'M', 2, 2),  
-('Grace', 'Hernandez', 7, 29, 64.0, 158.2, NULL, 0, 0, 'F', 3, 1),  
-('Henry', 'Gonzalez', 8, 27, 80.3, 175.8, 2600, 18, 250, 'M', 1, 4),
-('Isla', 'Rodriguez', 9, 24, 68.9, 162.0, 2100, 22, 180, 'F', 4, 5),
-('Jack', 'Brown', 10, 33, 85.2, 180.3, 2400, 9, 190, 'M', 2, 3),  
-('Kara', 'Martinez', 11, 22, 59.8, 155.5, 1850, 6, 140, 'F', 3, 1), 
-('Liam', 'Taylor', 12, 31, 95.0, 185.0, NULL, 0, 0, 'M', 2, 4),  
-('Mia', 'Lee', 13, 29, 70.2, 160.0, NULL, 0, 0, 'F', 5, 2),  
-('Nina', 'Scott', 14, 26, 63.5, 162.5, 1900, 5, 160, 'F', 3, 1), 
-('Oscar', 'Walker', 15, 33, 89.0, 176.5, NULL, 0, 0, 'M', 4, 3), 
-('Penny', 'Adams', 16, 24, 58.0, 154.5, 1800, 4, 130, 'F', 1, 5),  
-('Quinn', 'Roberts', 17, 28, 77.5, 169.0, 2200, 12, 190, 'M', 5, 4),
-('Rachel', 'Green', 18, 34, 85.5, 180.0, NULL, 0, 0, 'F', 2, 3),  
-('Sam', 'Baker', 19, 27, 80.0, 175.5, NULL, 0, 0, 'M', 1, 2),  
-('Tina', 'Harris', 20, 29, 66.0, 168.5, NULL, 0, 0, 'F', 4, 5); 
+('alice_johnson', 'Alice', 'Johnson', 1, 25, 70.5, 165.3, 2000, 7, 150, 'F', 1, 1),
+('bob_smith', 'Bob', 'Smith', 2, 32, 85.0, 178.0, 2500, 12, 200, 'M', 2, 2),
+('clara_davis', 'Clara', 'Davis', 3, 28, 60.2, 160.5, 1800, 15, 180, 'F', 3, 3),
+('david_wilson', 'David', 'Wilson', 4, 35, 92.3, 183.2, 2700, 8, 210, 'M', 4, 4),
+('eva_martinez', 'Eva', 'Martinez', 5, 26, 75.0, 167.0, 2200, 10, 170, 'F', 5, 5),
+('frank_lopez', 'Frank', 'Lopez', 6, 30, 78.5, 172.5, NULL, 0, 0, 'M', 2, 2),
+('grace_hernandez', 'Grace', 'Hernandez', 7, 29, 64.0, 158.2, NULL, 0, 0, 'F', 3, 1),
+('henry_gonzalez', 'Henry', 'Gonzalez', 8, 27, 80.3, 175.8, 2600, 18, 250, 'M', 1, 4),
+('isla_rodriguez', 'Isla', 'Rodriguez', 9, 24, 68.9, 162.0, 2100, 22, 180, 'F', 4, 5),
+('jack_brown', 'Jack', 'Brown', 10, 33, 85.2, 180.3, 2400, 9, 190, 'M', 2, 3),
+('kara_martinez', 'Kara', 'Martinez', 11, 22, 59.8, 155.5, 1850, 6, 140, 'F', 3, 1),
+('liam_taylor', 'Liam', 'Taylor', 12, 31, 95.0, 185.0, NULL, 0, 0, 'M', 2, 4),
+('mia_lee', 'Mia', 'Lee', 13, 29, 70.2, 160.0, NULL, 0, 0, 'F', 5, 2),
+('nina_scott', 'Nina', 'Scott', 14, 26, 63.5, 162.5, 1900, 5, 160, 'F', 3, 1),
+('oscar_walker', 'Oscar', 'Walker', 15, 33, 89.0, 176.5, NULL, 0, 0, 'M', 4, 3),
+('penny_adams', 'Penny', 'Adams', 16, 24, 58.0, 154.5, 1800, 4, 130, 'F', 1, 5),
+('quinn_roberts', 'Quinn', 'Roberts', 17, 28, 77.5, 169.0, 2200, 12, 190, 'M', 5, 4),
+('rachel_green', 'Rachel', 'Green', 18, 34, 85.5, 180.0, NULL, 0, 0, 'F', 2, 3),
+('sam_baker', 'Sam', 'Baker', 19, 27, 80.0, 175.5, NULL, 0, 0, 'M', 1, 2),
+('tina_harris', 'Tina', 'Harris', 20, 29, 66.0, 168.5, NULL, 0, 0, 'F', 4, 5);
+
 
 
 INSERT INTO HabitTypes (TypeID, TypeName)
@@ -762,29 +882,28 @@ VALUES
 (10, '2024-12-01 13:15:00', 500);
 
 
-INSERT INTO Academies (Name, AcademyID, Description, AreaOfExpertise, Accepted, CertificateTitle, CertificateDateOfIssue, CertificateExpirationDate, CertificateIssuingBody)
+INSERT INTO Academies (Username, Name, AcademyID, Description, AreaOfExpertise, Accepted, CertificateTitle, CertificateDateOfIssue, CertificateExpirationDate, CertificateIssuingBody)
 VALUES
-('KickFit Academy', 1, 'A specialized academy for kickboxing and martial arts training', 'Kickboxing', 1, 'Kickboxing Instructor Certification', '2024-01-15', '2026-01-15', 'KickFit Certification Board'),
-('ZenYoga Academy', 2, 'Focused on yoga training and mindfulness practices', 'Yoga', 1, 'Certified Yoga Instructor', '2023-10-01', '2025-10-01', 'ZenYoga Certification Authority'),
-('RockClimb Pro Academy', 3, 'Rock climbing and bouldering expertise for all levels', 'Rock Climbing', 1, 'Rock Climbing Instructor Certificate', '2023-11-01', '2025-11-01', 'RockClimb Pro Institute'),
-('StrengthX Academy', 4, 'Strength and conditioning academy with focus on powerlifting', 'Powerlifting', 1, 'Certified Strength Coach', '2024-02-20', '2026-02-20', 'StrengthX Certifying Body'),
-('FlexFit Academy', 5, 'A fitness academy dedicated to flexibility and mobility', 'Flexibility & Mobility', 1, 'Mobility Specialist Certification', '2023-09-05', '2025-09-05', 'FlexFit Certification Authority'),
-('Triathlete Academy', 6, 'Training for triathlons, focusing on swimming, cycling, and running', 'Triathlon', 1, 'Certified Triathlon Coach', '2024-03-15', '2026-03-15', 'Triathlete Coaching Institute'),
-('CrossFit Nation Academy', 7, 'CrossFit training academy with dynamic fitness routines', 'CrossFit', 1, 'Certified CrossFit Trainer', '2024-04-10', '2026-04-10', 'CrossFit National Org'),
-('PilatesCore Academy', 8, 'Pilates training with a focus on core strength and posture', 'Pilates', 1, 'Certified Pilates Instructor', '2023-12-12', '2025-12-12', 'PilatesCore Certification Body'),
-('BoxingPro Academy', 9, 'Boxing skills academy for amateur and professional training', 'Boxing', 1, 'Certified Boxing Coach', '2024-05-30', '2026-05-30', 'BoxingPro Certification Authority'),
-('Endurance Fitness Academy', 10, 'Endurance training for marathon, ultra, and obstacle races', 'Endurance Sports', 1, 'Endurance Coach Certification', '2024-06-01', '2026-06-01', 'Endurance Fitness Institute'),
-('YogaFlow Academy', 11, 'Advanced yoga techniques for strength and mental clarity', 'Yoga', 0, 'Advanced Yoga Certification', '2023-08-20', '2025-08-20', 'YogaFlow Certification Body'),
-('ClimbingEdge Academy', 12, 'Outdoor and indoor rock climbing courses for all ages', 'Rock Climbing', 1, 'Certified Climbing Instructor', '2024-07-15', '2026-07-15', 'ClimbingEdge Institute'),
-('FitDance Academy', 13, 'Dance and fitness fusion academy for fun workouts', 'Dance Fitness', 0, 'Certified Dance Fitness Instructor', '2024-02-25', '2026-02-25', 'FitDance Academy Body'),
-('MindBody Academy', 14, 'Meditation and fitness combined for holistic wellness', 'Meditation & Fitness', 1, 'Holistic Fitness Coach', '2023-10-25', '2025-10-25', 'MindBody Wellness Council'),
-('TrailRunner Academy', 15, 'Training for trail running with a focus on endurance and technique', 'Trail Running', 1, 'Certified Trail Running Coach', '2024-01-05', '2026-01-05', 'TrailRunner Org'),
-('Bikram Yoga Academy', 16, 'Hot yoga training for strength and detoxification', 'Bikram Yoga', 1, 'Bikram Yoga Certification', '2023-11-25', '2025-11-25', 'Bikram Yoga Certifying Body'),
-('MixedMartialArts Academy', 17, 'MMA training and conditioning with a focus on combat sports', 'MMA', 0, 'Certified MMA Trainer', '2024-05-10', '2026-05-10', 'MixedMartialArts Certification Org'),
-('PowerCycle Academy', 18, 'Cycling academy for road and mountain biking enthusiasts', 'Cycling', 1, 'Certified Cycling Coach', '2023-09-10', '2025-09-10', 'PowerCycle Academy Body'),
-('BeachFit Academy', 19, 'Beach fitness programs combining bodyweight training and cardio', 'Beach Fitness', 1, 'Certified Beach Fitness Trainer', '2024-06-30', '2026-06-30', 'BeachFit Certification Authority'),
-('StrengthLab Academy', 20, 'Strength training and bodybuilding academy focused on hypertrophy', 'Bodybuilding', 1, 'Certified Bodybuilding Coach', '2024-04-22', '2026-04-22', 'StrengthLab Certification Body');
-
+('KickFitAcademy', 'KickFit Academy', 1, 'A specialized academy for kickboxing and martial arts training', 'Kickboxing', 1, 'Kickboxing Instructor Certification', '2024-01-15', '2026-01-15', 'KickFit Certification Board'),
+('ZenYogaAcademy', 'ZenYoga Academy', 2, 'Focused on yoga training and mindfulness practices', 'Yoga', 1, 'Certified Yoga Instructor', '2023-10-01', '2025-10-01', 'ZenYoga Certification Authority'),
+('RockClimbProAcademy', 'RockClimb Pro Academy', 3, 'Rock climbing and bouldering expertise for all levels', 'Rock Climbing', 1, 'Rock Climbing Instructor Certificate', '2023-11-01', '2025-11-01', 'RockClimb Pro Institute'),
+('StrengthXAcademy', 'StrengthX Academy', 4, 'Strength and conditioning academy with focus on powerlifting', 'Powerlifting', 1, 'Certified Strength Coach', '2024-02-20', '2026-02-20', 'StrengthX Certifying Body'),
+('FlexFitAcademy', 'FlexFit Academy', 5, 'A fitness academy dedicated to flexibility and mobility', 'Flexibility & Mobility', 1, 'Mobility Specialist Certification', '2023-09-05', '2025-09-05', 'FlexFit Certification Authority'),
+('TriathleteAcademy', 'Triathlete Academy', 6, 'Training for triathlons, focusing on swimming, cycling, and running', 'Triathlon', 1, 'Certified Triathlon Coach', '2024-03-15', '2026-03-15', 'Triathlete Coaching Institute'),
+('CrossFitNationAcademy', 'CrossFit Nation Academy', 7, 'CrossFit training academy with dynamic fitness routines', 'CrossFit', 1, 'Certified CrossFit Trainer', '2024-04-10', '2026-04-10', 'CrossFit National Org'),
+('PilatesCoreAcademy', 'PilatesCore Academy', 8, 'Pilates training with a focus on core strength and posture', 'Pilates', 1, 'Certified Pilates Instructor', '2023-12-12', '2025-12-12', 'PilatesCore Certification Body'),
+('BoxingProAcademy', 'BoxingPro Academy', 9, 'Boxing skills academy for amateur and professional training', 'Boxing', 1, 'Certified Boxing Coach', '2024-05-30', '2026-05-30', 'BoxingPro Certification Authority'),
+('EnduranceFitnessAcademy', 'Endurance Fitness Academy', 10, 'Endurance training for marathon, ultra, and obstacle races', 'Endurance Sports', 1, 'Endurance Coach Certification', '2024-06-01', '2026-06-01', 'Endurance Fitness Institute'),
+('YogaFlowAcademy', 'YogaFlow Academy', 11, 'Advanced yoga techniques for strength and mental clarity', 'Yoga', 0, 'Advanced Yoga Certification', '2023-08-20', '2025-08-20', 'YogaFlow Certification Body'),
+('ClimbingEdgeAcademy', 'ClimbingEdge Academy', 12, 'Outdoor and indoor rock climbing courses for all ages', 'Rock Climbing', 1, 'Certified Climbing Instructor', '2024-07-15', '2026-07-15', 'ClimbingEdge Institute'),
+('FitDanceAcademy', 'FitDance Academy', 13, 'Dance and fitness fusion academy for fun workouts', 'Dance Fitness', 0, 'Certified Dance Fitness Instructor', '2024-02-25', '2026-02-25', 'FitDance Academy Body'),
+('MindBodyAcademy', 'MindBody Academy', 14, 'Meditation and fitness combined for holistic wellness', 'Meditation & Fitness', 1, 'Holistic Fitness Coach', '2023-10-25', '2025-10-25', 'MindBody Wellness Council'),
+('TrailRunnerAcademy', 'TrailRunner Academy', 15, 'Training for trail running with a focus on endurance and technique', 'Trail Running', 1, 'Certified Trail Running Coach', '2024-01-05', '2026-01-05', 'TrailRunner Org'),
+('BikramYogaAcademy', 'Bikram Yoga Academy', 16, 'Hot yoga training for strength and detoxification', 'Bikram Yoga', 1, 'Bikram Yoga Certification', '2023-11-25', '2025-11-25', 'Bikram Yoga Certifying Body'),
+('MixedMartialArtsAcademy', 'MixedMartialArts Academy', 17, 'MMA training and conditioning with a focus on combat sports', 'MMA', 0, 'Certified MMA Trainer', '2024-05-10', '2026-05-10', 'MixedMartialArts Certification Org'),
+('PowerCycleAcademy', 'PowerCycle Academy', 18, 'Cycling academy for road and mountain biking enthusiasts', 'Cycling', 1, 'Certified Cycling Coach', '2023-09-10', '2025-09-10', 'PowerCycle Academy Body'),
+('BeachFitAcademy', 'BeachFit Academy', 19, 'Beach fitness programs combining bodyweight training and cardio', 'Beach Fitness', 1, 'Certified Beach Fitness Trainer', '2024-06-30', '2026-06-30', 'BeachFit Certification Authority'),
+('StrengthLabAcademy', 'StrengthLab Academy', 20, 'Strength training and bodybuilding academy focused on hypertrophy', 'Bodybuilding', 1, 'Certified Bodybuilding Coach', '2024-04-22', '2026-04-22', 'StrengthLab Certification Body');
 
 INSERT INTO Sessions (SessionID, Description, Price, Limit, FullSession, Duration, Location, Date, Time, AcademyID)
 VALUES
@@ -1165,5 +1284,23 @@ VALUES
 (5, 1, 19, '2024-01-15')  -- Treadmill Walking
 
 
+-- trigger that happens when user is deleted instead of cascading deletes
+GO
+CREATE TRIGGER trg_DeleteUser
+ON Users
+FOR DELETE
+AS
+BEGIN
 
+    DELETE FROM Members
+    WHERE Username IN (SELECT Username FROM DELETED);
+
+
+    DELETE FROM Coaches
+    WHERE Username IN (SELECT Username FROM DELETED);
+
+
+    DELETE FROM Academies
+    WHERE Username IN (SELECT Username FROM DELETED);
+END;
 

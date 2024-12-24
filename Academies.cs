@@ -19,6 +19,8 @@ namespace FitnessApplication
         AcademiesProfile ProfileForm;
         // Basic Academy info for welcome screen
         int ID;
+        // For now as there is no login screen
+        string Username = "KickFitAcademy";
         string Name;
 
         public Academies()
@@ -28,10 +30,17 @@ namespace FitnessApplication
             controller = new Controller();
             LoadAcademyInfo();
 
+
+        }
+        public void UpdateData(string NewUsername)
+        { 
+            Username = NewUsername;
+            LoadAcademyInfo();
         }
         private void LoadAcademyInfo()
         {
-            ID = 1;
+            // For now username is set since there is no login.
+            ID = controller.GetAcademyID(Username);
             Name = controller.GetAcademyName(ID);
             labelWelcomeAcademy.Text = $"Welcome, {Name}";
 
@@ -43,8 +52,11 @@ namespace FitnessApplication
 
         private void buttonViewProfile_Click(object sender, EventArgs e)
         {
-            ProfileForm = new AcademiesProfile(ID);
+            // We will give the profile form access to this form.. in order to update data if needed.
+            ProfileForm = new AcademiesProfile(ID, Username, this);
+
             ProfileForm.Show();
+            
 
         }
     }

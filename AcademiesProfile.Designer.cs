@@ -48,13 +48,18 @@
             this.textBoxExpirationDate = new System.Windows.Forms.TextBox();
             this.buttonEditCertificate = new System.Windows.Forms.Button();
             this.buttonConfirmCertificate = new System.Windows.Forms.Button();
+            this.textBoxUsername = new System.Windows.Forms.TextBox();
+            this.labelUsername = new System.Windows.Forms.Label();
+            this.textBoxPassword = new System.Windows.Forms.TextBox();
+            this.labelPassword = new System.Windows.Forms.Label();
+            this.checkBoxShowPassword = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // labelName
             // 
             this.labelName.AutoSize = true;
             this.labelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelName.Location = new System.Drawing.Point(29, 58);
+            this.labelName.Location = new System.Drawing.Point(33, 94);
             this.labelName.Name = "labelName";
             this.labelName.Size = new System.Drawing.Size(62, 22);
             this.labelName.TabIndex = 1;
@@ -64,7 +69,7 @@
             // 
             this.labelAreaExpertise.AutoSize = true;
             this.labelAreaExpertise.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAreaExpertise.Location = new System.Drawing.Point(29, 99);
+            this.labelAreaExpertise.Location = new System.Drawing.Point(33, 135);
             this.labelAreaExpertise.Name = "labelAreaExpertise";
             this.labelAreaExpertise.Size = new System.Drawing.Size(153, 22);
             this.labelAreaExpertise.TabIndex = 2;
@@ -74,7 +79,7 @@
             // 
             this.labelDescription.AutoSize = true;
             this.labelDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDescription.Location = new System.Drawing.Point(29, 147);
+            this.labelDescription.Location = new System.Drawing.Point(33, 183);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(105, 22);
             this.labelDescription.TabIndex = 3;
@@ -82,7 +87,7 @@
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(204, 58);
+            this.textBoxName.Location = new System.Drawing.Point(208, 94);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.ReadOnly = true;
             this.textBoxName.Size = new System.Drawing.Size(222, 22);
@@ -90,7 +95,7 @@
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(204, 147);
+            this.textBoxDescription.Location = new System.Drawing.Point(208, 183);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.ReadOnly = true;
@@ -99,7 +104,7 @@
             // 
             // textBoxAOE
             // 
-            this.textBoxAOE.Location = new System.Drawing.Point(204, 101);
+            this.textBoxAOE.Location = new System.Drawing.Point(208, 137);
             this.textBoxAOE.Name = "textBoxAOE";
             this.textBoxAOE.ReadOnly = true;
             this.textBoxAOE.Size = new System.Drawing.Size(222, 22);
@@ -107,7 +112,7 @@
             // 
             // buttonEditProfile
             // 
-            this.buttonEditProfile.Location = new System.Drawing.Point(629, 58);
+            this.buttonEditProfile.Location = new System.Drawing.Point(629, 52);
             this.buttonEditProfile.Name = "buttonEditProfile";
             this.buttonEditProfile.Size = new System.Drawing.Size(128, 41);
             this.buttonEditProfile.TabIndex = 7;
@@ -117,7 +122,7 @@
             // 
             // buttonConfirmProfileChanges
             // 
-            this.buttonConfirmProfileChanges.Location = new System.Drawing.Point(629, 189);
+            this.buttonConfirmProfileChanges.Location = new System.Drawing.Point(629, 267);
             this.buttonConfirmProfileChanges.Name = "buttonConfirmProfileChanges";
             this.buttonConfirmProfileChanges.Size = new System.Drawing.Size(128, 41);
             this.buttonConfirmProfileChanges.TabIndex = 8;
@@ -142,7 +147,7 @@
             this.labelCertificate.AutoSize = true;
             this.labelCertificate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelCertificate.ForeColor = System.Drawing.Color.IndianRed;
-            this.labelCertificate.Location = new System.Drawing.Point(28, 274);
+            this.labelCertificate.Location = new System.Drawing.Point(32, 355);
             this.labelCertificate.Name = "labelCertificate";
             this.labelCertificate.Size = new System.Drawing.Size(110, 25);
             this.labelCertificate.TabIndex = 10;
@@ -152,7 +157,7 @@
             // 
             this.labelDateIssue.AutoSize = true;
             this.labelDateIssue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDateIssue.Location = new System.Drawing.Point(33, 404);
+            this.labelDateIssue.Location = new System.Drawing.Point(37, 485);
             this.labelDateIssue.Name = "labelDateIssue";
             this.labelDateIssue.Size = new System.Drawing.Size(120, 22);
             this.labelDateIssue.TabIndex = 13;
@@ -162,7 +167,7 @@
             // 
             this.labelIssuingBody.AutoSize = true;
             this.labelIssuingBody.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIssuingBody.Location = new System.Drawing.Point(33, 356);
+            this.labelIssuingBody.Location = new System.Drawing.Point(37, 437);
             this.labelIssuingBody.Name = "labelIssuingBody";
             this.labelIssuingBody.Size = new System.Drawing.Size(117, 22);
             this.labelIssuingBody.TabIndex = 12;
@@ -172,7 +177,7 @@
             // 
             this.labelTitle.AutoSize = true;
             this.labelTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitle.Location = new System.Drawing.Point(33, 315);
+            this.labelTitle.Location = new System.Drawing.Point(37, 396);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(50, 22);
             this.labelTitle.TabIndex = 11;
@@ -182,7 +187,7 @@
             // 
             this.labelExpirationDate.AutoSize = true;
             this.labelExpirationDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelExpirationDate.Location = new System.Drawing.Point(33, 456);
+            this.labelExpirationDate.Location = new System.Drawing.Point(37, 537);
             this.labelExpirationDate.Name = "labelExpirationDate";
             this.labelExpirationDate.Size = new System.Drawing.Size(138, 22);
             this.labelExpirationDate.TabIndex = 14;
@@ -190,7 +195,7 @@
             // 
             // textBoxTitle
             // 
-            this.textBoxTitle.Location = new System.Drawing.Point(177, 315);
+            this.textBoxTitle.Location = new System.Drawing.Point(181, 396);
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.ReadOnly = true;
             this.textBoxTitle.Size = new System.Drawing.Size(222, 22);
@@ -198,7 +203,7 @@
             // 
             // textBoxIssuingBody
             // 
-            this.textBoxIssuingBody.Location = new System.Drawing.Point(177, 358);
+            this.textBoxIssuingBody.Location = new System.Drawing.Point(181, 439);
             this.textBoxIssuingBody.Name = "textBoxIssuingBody";
             this.textBoxIssuingBody.ReadOnly = true;
             this.textBoxIssuingBody.Size = new System.Drawing.Size(222, 22);
@@ -206,7 +211,7 @@
             // 
             // textBoxDateOfIssue
             // 
-            this.textBoxDateOfIssue.Location = new System.Drawing.Point(177, 404);
+            this.textBoxDateOfIssue.Location = new System.Drawing.Point(181, 485);
             this.textBoxDateOfIssue.Name = "textBoxDateOfIssue";
             this.textBoxDateOfIssue.ReadOnly = true;
             this.textBoxDateOfIssue.Size = new System.Drawing.Size(222, 22);
@@ -214,7 +219,7 @@
             // 
             // textBoxExpirationDate
             // 
-            this.textBoxExpirationDate.Location = new System.Drawing.Point(177, 456);
+            this.textBoxExpirationDate.Location = new System.Drawing.Point(181, 537);
             this.textBoxExpirationDate.Name = "textBoxExpirationDate";
             this.textBoxExpirationDate.ReadOnly = true;
             this.textBoxExpirationDate.Size = new System.Drawing.Size(222, 22);
@@ -222,7 +227,7 @@
             // 
             // buttonEditCertificate
             // 
-            this.buttonEditCertificate.Location = new System.Drawing.Point(629, 306);
+            this.buttonEditCertificate.Location = new System.Drawing.Point(629, 396);
             this.buttonEditCertificate.Name = "buttonEditCertificate";
             this.buttonEditCertificate.Size = new System.Drawing.Size(128, 41);
             this.buttonEditCertificate.TabIndex = 19;
@@ -232,7 +237,7 @@
             // 
             // buttonConfirmCertificate
             // 
-            this.buttonConfirmCertificate.Location = new System.Drawing.Point(629, 428);
+            this.buttonConfirmCertificate.Location = new System.Drawing.Point(629, 528);
             this.buttonConfirmCertificate.Name = "buttonConfirmCertificate";
             this.buttonConfirmCertificate.Size = new System.Drawing.Size(128, 41);
             this.buttonConfirmCertificate.TabIndex = 20;
@@ -241,11 +246,65 @@
             this.buttonConfirmCertificate.Visible = false;
             this.buttonConfirmCertificate.Click += new System.EventHandler(this.buttonConfirmCertificate_Click);
             // 
+            // textBoxUsername
+            // 
+            this.textBoxUsername.Location = new System.Drawing.Point(208, 52);
+            this.textBoxUsername.Name = "textBoxUsername";
+            this.textBoxUsername.ReadOnly = true;
+            this.textBoxUsername.Size = new System.Drawing.Size(222, 22);
+            this.textBoxUsername.TabIndex = 22;
+            // 
+            // labelUsername
+            // 
+            this.labelUsername.AutoSize = true;
+            this.labelUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUsername.Location = new System.Drawing.Point(33, 52);
+            this.labelUsername.Name = "labelUsername";
+            this.labelUsername.Size = new System.Drawing.Size(92, 22);
+            this.labelUsername.TabIndex = 21;
+            this.labelUsername.Text = "Username";
+            // 
+            // textBoxPassword
+            // 
+            this.textBoxPassword.Location = new System.Drawing.Point(208, 286);
+            this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.ReadOnly = true;
+            this.textBoxPassword.Size = new System.Drawing.Size(222, 22);
+            this.textBoxPassword.TabIndex = 24;
+            this.textBoxPassword.UseSystemPasswordChar = true;
+            this.textBoxPassword.TextChanged += new System.EventHandler(this.textBoxPassword_TextChanged);
+            // 
+            // labelPassword
+            // 
+            this.labelPassword.AutoSize = true;
+            this.labelPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPassword.Location = new System.Drawing.Point(33, 286);
+            this.labelPassword.Name = "labelPassword";
+            this.labelPassword.Size = new System.Drawing.Size(89, 22);
+            this.labelPassword.TabIndex = 23;
+            this.labelPassword.Text = "Password";
+            // 
+            // checkBoxShowPassword
+            // 
+            this.checkBoxShowPassword.AutoSize = true;
+            this.checkBoxShowPassword.Location = new System.Drawing.Point(208, 314);
+            this.checkBoxShowPassword.Name = "checkBoxShowPassword";
+            this.checkBoxShowPassword.Size = new System.Drawing.Size(62, 20);
+            this.checkBoxShowPassword.TabIndex = 25;
+            this.checkBoxShowPassword.Text = "Show";
+            this.checkBoxShowPassword.UseVisualStyleBackColor = true;
+            this.checkBoxShowPassword.CheckedChanged += new System.EventHandler(this.checkBoxShowPassword_CheckedChanged);
+            // 
             // AcademiesProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(787, 585);
+            this.ClientSize = new System.Drawing.Size(861, 680);
+            this.Controls.Add(this.checkBoxShowPassword);
+            this.Controls.Add(this.textBoxPassword);
+            this.Controls.Add(this.labelPassword);
+            this.Controls.Add(this.textBoxUsername);
+            this.Controls.Add(this.labelUsername);
             this.Controls.Add(this.buttonConfirmCertificate);
             this.Controls.Add(this.buttonEditCertificate);
             this.Controls.Add(this.textBoxExpirationDate);
@@ -296,5 +355,10 @@
         private System.Windows.Forms.TextBox textBoxExpirationDate;
         private System.Windows.Forms.Button buttonEditCertificate;
         private System.Windows.Forms.Button buttonConfirmCertificate;
+        private System.Windows.Forms.TextBox textBoxUsername;
+        private System.Windows.Forms.Label labelUsername;
+        private System.Windows.Forms.TextBox textBoxPassword;
+        private System.Windows.Forms.Label labelPassword;
+        private System.Windows.Forms.CheckBox checkBoxShowPassword;
     }
 }

@@ -19,16 +19,30 @@ namespace FitnessApplication
         AcademiesProfile ProfileForm;
         // Basic Academy info for welcome screen
         int ID;
-        string Name, Description, AreaOfExpertise;
+        string Username, Name, Description, AreaOfExpertise, Password;
 
         string CertificateTitle, CertificateIssuingBody, CertificateDateOfIssue, CertificateExpirationDate;
+        Academies BaseAcademyForm;
         
-        public AcademiesProfile(int ID)
+        // Base academy form taken in order to be update username when needed
+        public AcademiesProfile(int ID, string Username, Academies BaseAcademyForm)
         {
             InitializeComponent();
             controller = new Controller();
             this.ID = ID;
-            LoadAcademyInfo();
+            this.Username = Username;
+            this.BaseAcademyForm = BaseAcademyForm;
+            LoadProfile();
+        }
+
+        private void textBoxPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxShowPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxPassword.UseSystemPasswordChar = !textBoxPassword.UseSystemPasswordChar;
         }
 
         private void buttonEditCertificate_Click(object sender, EventArgs e)
@@ -52,7 +66,7 @@ namespace FitnessApplication
             }
             // Update Certificate
             int result = controller.UpdateAcademyCertificate(ID,CertificateTitle,CertificateDateOfIssue,CertificateIssuingBody,CertificateExpirationDate);
-
+            
             if (result == 1)
             {
                 MessageBox.Show("Certificate Updated Successfully.");
@@ -61,6 +75,10 @@ namespace FitnessApplication
 
                 textBoxTitle.ReadOnly = true; textBoxIssuingBody.ReadOnly = true; textBoxDateOfIssue.ReadOnly = true;
                 textBoxExpirationDate.ReadOnly = true;
+
+
+
+                
             }
             else
             { 
@@ -72,6 +90,7 @@ namespace FitnessApplication
         private void buttonEditProfile_Click(object sender, EventArgs e)
         {
             textBoxName.ReadOnly = false ; textBoxDescription.ReadOnly = false; textBoxAOE.ReadOnly = false ;
+            textBoxPassword.ReadOnly = false ; textBoxUsername.ReadOnly = false ;
             buttonConfirmProfileChanges.Visible = true ;
 
         }
@@ -80,26 +99,39 @@ namespace FitnessApplication
         {
             // Read data
             Name = textBoxName.Text ; Description = textBoxDescription.Text ; AreaOfExpertise = textBoxAOE.Text ;
+            Password = textBoxPassword.Text ;
+            // Old username will be used to update new username
+            string NewUsername = textBoxUsername.Text ;
             // Check if fields empty
-            if (Name == "" || Description == ""|| AreaOfExpertise == "")
+            if (Name == "" || Description == ""|| AreaOfExpertise == "" || Username == "" || Password == "")
             {
                 MessageBox.Show("Do not leave any fields empty.");
                 return;
             }
             // Update profile
-            int result = controller.UpdateBasicAcademyProfile(ID, Name, Description, AreaOfExpertise);
+            int resultBasicInfo = controller.UpdateBasicAcademyProfile(ID, Name, Description, AreaOfExpertise);
+            int resultUsernamePassword = controller.UpdateUsernamePasswordAcademy(Username, NewUsername, Password);
 
-            if (result == 1)
+            if (resultBasicInfo == 1 && resultUsernamePassword == 1)
             {
                 MessageBox.Show("Profile Updated Successfully.");
                 // Return to original state
                 buttonConfirmProfileChanges.Visible=false;
 
                 textBoxName.ReadOnly = true ; textBoxDescription.ReadOnly = true ; textBoxAOE.ReadOnly=true;
+                textBoxUsername.ReadOnly = true ; textBoxPassword.ReadOnly = true ;
+
+                // The base academy form should have its data updated
+                BaseAcademyForm.UpdateData(NewUsername);
             }
-            else
+            else if(resultBasicInfo != 1 && resultUsernamePassword != 1)
             {
                 MessageBox.Show("Profile could not be updated.");
+                return;
+            }
+            else if (resultUsernamePassword != 1)
+            {
+                MessageBox.Show("Username is already taken.");
                 return;
             }
 
@@ -116,20 +148,27 @@ namespace FitnessApplication
 
         }
 
-        private void LoadAcademyInfo()
+
+        public void LoadProfile()
         {
+            // Getting the info
             Name = controller.GetAcademyName(ID);
             Description = controller.GetAcademyDescription(ID);
             AreaOfExpertise = controller.GetAcademyAOE(ID);
+            Password = controller.GetAcademyPassword(Username);
 
             CertificateTitle = controller.GetAcademyCertificateTitle(ID);
             CertificateIssuingBody = controller.GetAcademyCertificateIssuingBody(ID);
             CertificateDateOfIssue = controller.GetAcademyCertificateDateOfIssue(ID);
             CertificateExpirationDate = controller.GetAcademyCertificateExpirationDate(ID);
 
+            // Loading it into suitable text boxes
+            textBoxUsername.Text = Username;
             textBoxName.Text = Name;
             textBoxDescription.Text = Description;
             textBoxAOE.Text = AreaOfExpertise;
+            textBoxPassword.Text = Password;
+
 
             textBoxTitle.Text = CertificateTitle;
             textBoxIssuingBody.Text = CertificateIssuingBody;

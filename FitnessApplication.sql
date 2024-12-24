@@ -98,7 +98,7 @@ Username varchar(50) not null,
 
 Foreign Key (Username) References Users(Username)
 ON DELETE NO ACTION
-ON UPDATE NO ACTION,
+ON UPDATE CASCADE,
 primary key(CoachID),
 )
 
@@ -111,7 +111,7 @@ CONSTRAINT chk_coachedby_rating CHECK (Rating >= 0 AND Rating <= 5), -- Look for
 Ongoing BIT not null,
 Foreign Key (MemberID) References Members(MemberID)
 ON DELETE CASCADE
-ON UPDATE CASCADE,
+ON UPDATE NO ACTION,
 Foreign Key (CoachID) References Coaches(CoachID)
 ON DELETE  CASCADE
 ON UPDATE CASCADE,
@@ -188,7 +188,7 @@ Username varchar(50) not null,
 
 Foreign Key (Username) References Users(Username)
 ON DELETE NO ACTION
-ON UPDATE NO ACTION,
+ON UPDATE  CASCADE,
 primary key(AcademyID),
 )
 
@@ -1304,3 +1304,26 @@ BEGIN
     WHERE Username IN (SELECT Username FROM DELETED);
 END;
 
+GO
+--CREATE TRIGGER trg_UpdateUsername
+--ON Users
+--FOR UPDATE
+--AS
+--BEGIN
+--    -- Update the Username in the Members table
+--    UPDATE Members
+--    SET Username = (SELECT Username FROM INSERTED)
+--    WHERE Username = (SELECT Username FROM DELETED);
+--
+--    -- Update the Username in the Coaches table
+--    UPDATE Coaches
+--    SET Username = (SELECT Username FROM INSERTED)
+--    WHERE Username = (SELECT Username FROM DELETED);
+--
+--    -- Update the Username in the Academies table
+--    UPDATE Academies
+--    SET Username = (SELECT Username FROM INSERTED)
+--    WHERE Username = (SELECT Username FROM DELETED);
+--END;
+--
+--

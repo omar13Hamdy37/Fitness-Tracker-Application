@@ -52,6 +52,12 @@
     <Compile Include="Academies.Designer.cs">
       <DependentUpon>Academies.cs</DependentUpon>
     </Compile>
+    <Compile Include="AcademiesPostSession.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AcademiesPostSession.Designer.cs">
+      <DependentUpon>AcademiesPostSession.cs</DependentUpon>
+    </Compile>
     <Compile Include="AcademiesProfile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +70,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Academies.resx">
       <DependentUpon>Academies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademiesPostSession.resx">
+      <DependentUpon>AcademiesPostSession.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AcademiesProfile.resx">
       <DependentUpon>AcademiesProfile.cs</DependentUpon>

@@ -17,6 +17,8 @@ namespace FitnessApplication
         Controller controller;
         // Forms to open
         AcademiesProfile ProfileForm;
+        AcademiesPostSession PostSessionForm;
+
         // Basic Academy info for welcome screen
         int ID;
         // For now as there is no login screen
@@ -58,6 +60,12 @@ namespace FitnessApplication
             ProfileForm.Show();
             
 
+        }
+
+        private void buttonPostSession_Click(object sender, EventArgs e)
+        {
+            PostSessionForm = new AcademiesPostSession(Username, ID);
+            PostSessionForm.Show();
         }
     }
 }

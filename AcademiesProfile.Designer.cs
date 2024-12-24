@@ -260,9 +260,9 @@
             this.labelUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelUsername.Location = new System.Drawing.Point(33, 52);
             this.labelUsername.Name = "labelUsername";
-            this.labelUsername.Size = new System.Drawing.Size(92, 22);
+            this.labelUsername.Size = new System.Drawing.Size(97, 22);
             this.labelUsername.TabIndex = 21;
-            this.labelUsername.Text = "Username";
+            this.labelUsername.Text = "Username:";
             // 
             // textBoxPassword
             // 
@@ -280,9 +280,9 @@
             this.labelPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelPassword.Location = new System.Drawing.Point(33, 286);
             this.labelPassword.Name = "labelPassword";
-            this.labelPassword.Size = new System.Drawing.Size(89, 22);
+            this.labelPassword.Size = new System.Drawing.Size(94, 22);
             this.labelPassword.TabIndex = 23;
-            this.labelPassword.Text = "Password";
+            this.labelPassword.Text = "Password:";
             // 
             // checkBoxShowPassword
             // 
@@ -326,7 +326,7 @@
             this.Controls.Add(this.labelAreaExpertise);
             this.Controls.Add(this.labelName);
             this.Name = "AcademiesProfile";
-            this.Text = "AcademiesProfile";
+            this.Text = "Profile";
             this.Load += new System.EventHandler(this.AcademiesProfile_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

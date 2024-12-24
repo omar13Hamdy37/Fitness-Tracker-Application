@@ -5,6 +5,8 @@ using System.Text;
 using System.Data;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using System.Diagnostics;
 
 namespace DBapplication
 {
@@ -108,6 +110,26 @@ namespace DBapplication
             string query = $"UPDATE Academies SET CertificateTitle = '{Title}', CertificateDateOfIssue = '{DateOfIssue}', CertificateIssuingBody = '{IssuingBody}', CertificateExpirationDate = '{ExpirationDate}'  WHERE AcademyID = {ID}";
             return dbMan.ExecuteNonQuery(query);
 
+        }
+
+        // Academy Post Session
+
+        // Inserting 
+        public int AcademyInsertSession(string description, float price, int limit, string duration, string location, string date, string time, int academyId)
+        {
+            // Session should not be empty
+            int fullSession = 0;
+            // new session id
+            int SessionID = GetCountSessionFromAcademy(academyId) + 1; 
+
+            string query = $"INSERT INTO Sessions (SessionID, Description, Price, Limit, Duration, FullSession, Location, Date, Time, AcademyID) " +
+                           $"VALUES ({SessionID},'{description}', {price}, {limit}, '{duration}',{fullSession}, '{location}', '{date}', '{time}', {academyId})";
+            return dbMan.ExecuteNonQuery(query);
+        }
+        public int GetCountSessionFromAcademy(int ID)
+        {
+            string query = $"SELECT COUNT(*) FROM Sessions WHERE AcademyID = {ID}";
+            return (int) dbMan.ExecuteScalar(query);
         }
 
 

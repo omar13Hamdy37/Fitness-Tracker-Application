@@ -8,10 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Syncfusion.WinForms.Controls;
 
 namespace FitnessApplication
 {
-    public partial class AcademiesPostSession : Form
+    public partial class AcademiesPostSession : SfForm
     {
         Controller controller;
         // Data of user
@@ -27,11 +28,11 @@ namespace FitnessApplication
             this.ID = ID;
             this.Username = Username;
 
-            DatePicker.MinDate = DateTime.Today;
+            DatePickers.MinDateTime = DateTime.Today;
 
             DurationPicker.Value = DurationPicker.MinDate;
             TimePicker.Value = DateTime.Now;
-            DatePicker.Value = DateTime.Now;
+            DatePickers.Value = DateTime.Now;
         }
 
         private void checkBoxFree_CheckedChanged(object sender, EventArgs e)
@@ -60,6 +61,39 @@ namespace FitnessApplication
             }
         }
 
+        private void buttonPostSession_Click_1(object sender, EventArgs e)
+        {
+            int result;
+            if (ReadSessionDetails())
+            {
+                if (limit <= 0)
+                {
+                    MessageBox.Show("Please enter an appropriate limit.");
+                    return;
+                }
+
+                else
+                {
+                    result = controller.AcademyInsertSession(Description, priceFloat, limit, Duration, Address, Date, Time, ID);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please do not leave any field empty.");
+                return;
+            }
+
+            if (result == 1)
+            {
+                MessageBox.Show("Session posted successfully.");
+                ResetSessionDetails();
+            }
+            else
+            {
+                MessageBox.Show("Error posting session.");
+            }
+        }
+
         private bool ReadSessionDetails()
         {
             Description = textBoxDescription.Text;
@@ -67,7 +101,7 @@ namespace FitnessApplication
             limit = (int) numericUpDownLimit.Value;
             // priceFloat already stored
 
-            Date = DatePicker.Text;
+            Date = DatePickers.DateTimeText;
             Time = TimePicker.Text;
             Duration = DurationPicker.Text;
             if(Description == "" || Address == "" || Date == "" || Time == "" || Duration == "" || (textBoxPrice.Text == "" && checkBoxFree.Checked == false))
@@ -90,49 +124,47 @@ namespace FitnessApplication
             DurationPicker.Value = DurationPicker.MinDate;
 
             TimePicker.Value = DateTime.Now;
-            DatePicker.Value = DateTime.Now;
+            DatePickers.Value = DateTime.Now;
 
 
         }
 
-            
-        private void buttonPostSession_Click(object sender, EventArgs e)
-        {
-            int result;
-            if (ReadSessionDetails())
-            {
-                if (limit <= 0)
-                {
-                    MessageBox.Show("Please enter an appropriate limit.");
-                    return;
-                }
 
-                else
-                {
-                    result = controller.AcademyInsertSession(Description, priceFloat, limit, Duration, Address, Date, Time, ID);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Please do not leave any field empty.");
-                return;
-            }
-
-            if(result == 1)
-            {
-                MessageBox.Show("Session posted successfully.");
-                ResetSessionDetails();
-            }
-            else
-            {
-                MessageBox.Show("Error posting session.");
-            }
-        }
 
 
         private void AcademiesPostSession_Load(object sender, EventArgs e)
         {
+            // Sets the back color and fore color of the title bar.
+            this.Style.TitleBar.BackColor = Color.LightCoral;
+            this.Style.TitleBar.ForeColor = Color.White;
+
+
+            this.Style.TitleBar.CloseButtonForeColor = Color.White;
+            this.Style.TitleBar.MinimizeButtonForeColor = Color.White;
+            this.Style.TitleBar.MaximizeButtonForeColor = Color.White;
+
+
+            this.Style.TitleBar.CloseButtonHoverBackColor = Color.IndianRed;
+            this.Style.TitleBar.MinimizeButtonHoverBackColor = Color.IndianRed;
+            this.Style.TitleBar.MaximizeButtonHoverBackColor = Color.IndianRed;
+
+            this.Style.TitleBar.CloseButtonPressedBackColor = Color.Crimson;
+            this.Style.TitleBar.MaximizeButtonPressedBackColor = Color.Crimson;
+            this.Style.TitleBar.MinimizeButtonPressedBackColor = Color.Crimson;
+
+
+
+
+
+
+
+
+
+
 
         }
+
+
     }
+
 }

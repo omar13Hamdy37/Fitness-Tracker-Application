@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Syncfusion.WinForms.Controls;
+using Syncfusion.Windows.Forms.Tools;
 
 namespace FitnessApplication
 {
@@ -21,17 +22,19 @@ namespace FitnessApplication
         AcademiesPostSession PostSessionForm;
         AcademiesViewSessions ViewSessionsForm;
 
-        // Basic Academy info for welcome screen
+
         int ID;
-        // For now as there is no login screen
-        string Username = "KickFitAcademy";
+
+        string Username;
         string Name;
 
-        public Academies()
+        public Academies(string Username, int ID)
         {
             InitializeComponent();
             // Initializing controller
             controller = new Controller();
+            this.Username = Username;
+            this.ID = ID;
             LoadAcademyInfo();
 
 
@@ -52,22 +55,7 @@ namespace FitnessApplication
         private void Academies_Load(object sender, EventArgs e)
         {
             // Sets the back color and fore color of the title bar.
-            this.Style.TitleBar.BackColor = Color.LightCoral; 
-            this.Style.TitleBar.ForeColor = Color.White;      
 
-
-            this.Style.TitleBar.CloseButtonForeColor = Color.White;
-            this.Style.TitleBar.MinimizeButtonForeColor = Color.White;
-            this.Style.TitleBar.MaximizeButtonForeColor = Color.White;
-
-
-            this.Style.TitleBar.CloseButtonHoverBackColor = Color.IndianRed;  
-            this.Style.TitleBar.MinimizeButtonHoverBackColor = Color.IndianRed;
-            this.Style.TitleBar.MaximizeButtonHoverBackColor = Color.IndianRed;
-
-            this.Style.TitleBar.CloseButtonPressedBackColor = Color.Crimson; 
-            this.Style.TitleBar.MaximizeButtonPressedBackColor = Color.Crimson;
-            this.Style.TitleBar.MinimizeButtonPressedBackColor = Color.Crimson;
 
         }
 
@@ -94,6 +82,11 @@ namespace FitnessApplication
         }
 
         private void sfButton1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControlAdv1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

@@ -148,6 +148,34 @@ namespace DBapplication
             return dbMan.ExecuteNonQuery(query);
         }
 
+        //  View Academy's sessions
+
+        public DataTable GetAcademySessions(int ID, string SortBy, int limit)
+        {
+            string query;
+            if (limit != 0)
+            {
+                query = $"SELECT TOP {limit} * FROM Sessions WHERE AcademyID = {ID}"; // Rebuild query to include TOP
+            }
+            else
+            { query = $"SELECT * FROM Sessions WHERE AcademyID = {ID}"; }
+
+            // han add sorting option based on the selected value
+            switch (SortBy.ToLower())
+            {
+                case "oldest":
+                    query += " ORDER BY Date ASC, Time ASC";
+                    break;
+                case "newest":
+                    query += " ORDER BY Date DESC, Time DESC"; 
+                    break;
+
+            }
+
+
+
+            return dbMan.ExecuteReader(query);
+        }
 
 
 

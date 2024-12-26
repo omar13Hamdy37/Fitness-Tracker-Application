@@ -133,6 +133,21 @@ namespace DBapplication
         }
 
 
+        // Delete academy account
+
+        public int DeleteAcademyUser(string username)
+        {
+            string query = $"DELETE FROM Users WHERE Username = '{username}'";
+            return dbMan.ExecuteNonQuery(query);
+
+        }
+
+        public int DeleteAcademy(int ID)
+        {
+            string query = $"DELETE FROM Academies WHERE AcademyID = {ID}";
+            return dbMan.ExecuteNonQuery(query);
+        }
+
 
 
 

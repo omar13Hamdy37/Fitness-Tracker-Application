@@ -21,6 +21,12 @@ namespace FitnessApplication
         int ID,age;
         string Username, Name , Password ,firstname,lastname,gender;
         decimal weight, height;
+
+        private void membershowpasswordcheckbox_CheckStateChanged(object sender, EventArgs e)
+        {
+            memberpasswordtextbox.UseSystemPasswordChar = !memberpasswordtextbox.UseSystemPasswordChar;
+        }
+
         private void membereditprofilebutton_Click(object sender, EventArgs e)
         {
 

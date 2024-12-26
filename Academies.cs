@@ -97,5 +97,10 @@ namespace FitnessApplication
         {
 
         }
+
+        private void labelWelcomeAcademy_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

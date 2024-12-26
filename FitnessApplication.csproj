@@ -92,6 +92,18 @@
     </Compile>
     <Compile Include="Controller.cs" />
     <Compile Include="DBManager.cs" />
+    <Compile Include="Members.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Members.Designer.cs">
+      <DependentUpon>Members.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MembersProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MembersProfile.Designer.cs">
+      <DependentUpon>MembersProfile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Academies.resx">
@@ -105,6 +117,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AcademiesViewSessions.resx">
       <DependentUpon>AcademiesViewSessions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Members.resx">
+      <DependentUpon>Members.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MembersProfile.resx">
+      <DependentUpon>MembersProfile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

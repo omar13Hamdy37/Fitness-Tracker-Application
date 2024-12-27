@@ -61,10 +61,10 @@ Points int not null,
 Gender char(1) not null,
 FitnessGoalID int,
 DietID int,
-Username varchar(50) not null,
+Username varchar(50),
 
 Foreign Key (Username) References Users(Username)
-ON DELETE NO ACTION
+ON DELETE SET NULL
 ON UPDATE NO ACTION,
 
 Foreign Key (FitnessGoalID) References FitnessGoals(GoalID)

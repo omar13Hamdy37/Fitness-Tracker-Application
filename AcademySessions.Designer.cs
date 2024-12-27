@@ -350,7 +350,7 @@
             this.sfButtonStats.TabIndex = 83;
             this.sfButtonStats.TabStop = false;
             this.sfButtonStats.UseVisualStyleBackColor = false;
-            this.sfButtonStats.Click += new System.EventHandler(this.sfButton1_Click);
+            this.sfButtonStats.Click += new System.EventHandler(this.sfButtonStats_Click);
             // 
             // sfButtonEdit
             // 

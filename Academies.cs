@@ -55,6 +55,22 @@ namespace FitnessApplication
         private void Academies_Load(object sender, EventArgs e)
         {
             // Sets the back color and fore color of the title bar.
+            this.Style.TitleBar.BackColor = Color.LightCoral;
+            this.Style.TitleBar.ForeColor = Color.White;
+
+
+            this.Style.TitleBar.CloseButtonForeColor = Color.White;
+            this.Style.TitleBar.MinimizeButtonForeColor = Color.White;
+            this.Style.TitleBar.MaximizeButtonForeColor = Color.White;
+
+
+            this.Style.TitleBar.CloseButtonHoverBackColor = Color.IndianRed;
+            this.Style.TitleBar.MinimizeButtonHoverBackColor = Color.IndianRed;
+            this.Style.TitleBar.MaximizeButtonHoverBackColor = Color.IndianRed;
+
+            this.Style.TitleBar.CloseButtonPressedBackColor = Color.Crimson;
+            this.Style.TitleBar.MaximizeButtonPressedBackColor = Color.Crimson;
+            this.Style.TitleBar.MinimizeButtonPressedBackColor = Color.Crimson;
 
 
         }

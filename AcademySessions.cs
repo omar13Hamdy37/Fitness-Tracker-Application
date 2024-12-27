@@ -35,6 +35,8 @@ namespace FitnessApplication
 
         Controller controller;
 
+        // Forms
+        AcademiesSessionStats StatsForm;
         public AcademySessions(string Username, int ID, DataTable Sessions, int StartingIndex, AcademiesViewSessions BaseSessionsForm)
         {
             InitializeComponent();
@@ -45,6 +47,8 @@ namespace FitnessApplication
             current_session_index = StartingIndex;
             this.BaseSessionsForm = BaseSessionsForm;
             DatePickers.MinDateTime = DateTime.Now;
+
+            ConfigureMessageBoxAdv();
 
 
 
@@ -234,14 +238,6 @@ namespace FitnessApplication
 
         private void sfButton2_Click(object sender, EventArgs e)
         {
-            MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
-
-            // 3ayzo same colors like academy
-            MessageBoxAdv.MetroColorTable.BackColor = Color.White;
-            MessageBoxAdv.MetroColorTable.ForeColor = Color.Black;
-            MessageBoxAdv.MetroColorTable.BorderColor = Color.IndianRed;
-            MessageBoxAdv.MetroColorTable.CaptionBarColor = Color.LightCoral;
-            MessageBoxAdv.MetroColorTable.CaptionForeColor = Color.White;
 
             DialogResult result = MessageBoxAdv.Show(this,
                 "Are you sure you want to delete this session?",
@@ -306,6 +302,13 @@ namespace FitnessApplication
 
 
         }
+
+        private void sfButtonStats_Click(object sender, EventArgs e)
+        {
+            StatsForm = new AcademiesSessionStats(Username, AcademyID, sessionID);
+            StatsForm.Show();
+        }
+
         private void sfButtonCancelEditing_Click(object sender, EventArgs e)
         {
             Load_Session();
@@ -339,13 +342,25 @@ namespace FitnessApplication
             {
                 if (limit <= 0)
                 {
-                    MessageBox.Show("Please enter an appropriate limit.");
+
+                    MessageBoxAdv.Show(this,
+                        "Please enter an appropriate limit.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
                     return;
                 }
                 if (limit < NumMembersAttending)
                 {
-                    MessageBox.Show($"There are already {NumMembersAttending} members attending.");
+
+                    MessageBoxAdv.Show(this,
+                        $"There are already {NumMembersAttending} members attending.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
                     return;
+
+
                 }
 
                 else
@@ -359,13 +374,24 @@ namespace FitnessApplication
             }
             else
             {
-                MessageBox.Show("Please do not leave any field empty.");
+
+                MessageBoxAdv.Show(this,
+                    "Do not leave any fields empty.",
+                    "No changes",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
             }
 
             if (result == 1)
             {
-                MessageBox.Show("Session updated successfully.");
+
+                MessageBoxAdv.Show(this,
+                    "Session updated successfully",
+                    "Profile Updated",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
                 DoneEditing();
 
                 BaseSessionsForm.ShowResults(current_session_index);
@@ -377,5 +403,24 @@ namespace FitnessApplication
                 MessageBox.Show("Error updating session.");
             }
         }
+
+        public static void ConfigureMessageBoxAdv()
+        {
+            MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
+            var metroColorTable = MessageBoxAdv.MetroColorTable;
+            metroColorTable.BackColor = Color.White;
+            metroColorTable.ForeColor = Color.Black;
+            metroColorTable.BorderColor = Color.IndianRed;
+            metroColorTable.CaptionBarColor = Color.LightCoral;
+            metroColorTable.CaptionForeColor = Color.White;
+            metroColorTable.OKButtonBackColor = Color.LightCoral;
+            metroColorTable.YesButtonBackColor = Color.LightCoral;
+            metroColorTable.NoButtonBackColor = Color.LightCoral;
+
+
+            MessageBoxAdv.MetroColorTable = metroColorTable;
+        }
     }
+
+
 }

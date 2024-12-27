@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Syncfusion.WinForms.Controls;
+using Syncfusion.Windows.Forms;
 
 namespace FitnessApplication
 {
@@ -27,6 +28,8 @@ namespace FitnessApplication
             controller = new Controller();
             this.ID = ID;
             this.Username = Username;
+
+            ConfigureMessageBoxAdv();
 
             DatePickers.MinDateTime = DateTime.Today;
 
@@ -68,7 +71,12 @@ namespace FitnessApplication
             {
                 if (limit <= 0)
                 {
-                    MessageBox.Show("Please enter an appropriate limit.");
+
+                    MessageBoxAdv.Show(this,
+                        "Please enter an appropriate limit.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -79,18 +87,34 @@ namespace FitnessApplication
             }
             else
             {
-                MessageBox.Show("Please do not leave any field empty.");
+
+                MessageBoxAdv.Show(this,
+                    "Do not leave any fields empty.",
+                    "No changes",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
             }
 
             if (result == 1)
             {
-                MessageBox.Show("Session posted successfully.");
+
+                MessageBoxAdv.Show(this,
+                    "Session posted successfully.",
+                    "Session Posted",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
                 ResetSessionDetails();
             }
             else
             {
-                MessageBox.Show("Error posting session.");
+
+                MessageBoxAdv.Show(this,
+                    "Session could not be posted.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
             }
         }
 
@@ -162,6 +186,22 @@ namespace FitnessApplication
 
 
 
+        }
+        public static void ConfigureMessageBoxAdv()
+        {
+            MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
+            var metroColorTable = MessageBoxAdv.MetroColorTable;
+            metroColorTable.BackColor = Color.White;
+            metroColorTable.ForeColor = Color.Black;
+            metroColorTable.BorderColor = Color.IndianRed;
+            metroColorTable.CaptionBarColor = Color.LightCoral;
+            metroColorTable.CaptionForeColor = Color.White;
+            metroColorTable.OKButtonBackColor = Color.LightCoral;
+            metroColorTable.YesButtonBackColor = Color.LightCoral;
+            metroColorTable.NoButtonBackColor = Color.LightCoral;
+
+
+            MessageBoxAdv.MetroColorTable = metroColorTable;
         }
 
 

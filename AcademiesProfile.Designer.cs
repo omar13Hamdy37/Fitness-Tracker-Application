@@ -45,10 +45,10 @@
             this.ProfileTab = new Syncfusion.Windows.Forms.Tools.TabControlAdv();
             this.tabPageAdv1 = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.tabPageAdv2 = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
+            this.sfDateTimeOfIssue = new Syncfusion.WinForms.Input.SfDateTimeEdit();
+            this.sfDateTimeOfExpiration = new Syncfusion.WinForms.Input.SfDateTimeEdit();
             this.buttonConfirmCertificate = new System.Windows.Forms.Button();
             this.buttonEditCertificate = new System.Windows.Forms.Button();
-            this.textBoxExpirationDate = new System.Windows.Forms.TextBox();
-            this.textBoxDateOfIssue = new System.Windows.Forms.TextBox();
             this.textBoxIssuingBody = new System.Windows.Forms.TextBox();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.labelExpirationDate = new System.Windows.Forms.Label();
@@ -242,13 +242,14 @@
             this.tabPageAdv1.Size = new System.Drawing.Size(854, 397);
             this.tabPageAdv1.Text = "Profile";
             this.tabPageAdv1.ThemesEnabled = false;
+            this.tabPageAdv1.Click += new System.EventHandler(this.tabPageAdv1_Click);
             // 
             // tabPageAdv2
             // 
+            this.tabPageAdv2.Controls.Add(this.sfDateTimeOfIssue);
+            this.tabPageAdv2.Controls.Add(this.sfDateTimeOfExpiration);
             this.tabPageAdv2.Controls.Add(this.buttonConfirmCertificate);
             this.tabPageAdv2.Controls.Add(this.buttonEditCertificate);
-            this.tabPageAdv2.Controls.Add(this.textBoxExpirationDate);
-            this.tabPageAdv2.Controls.Add(this.textBoxDateOfIssue);
             this.tabPageAdv2.Controls.Add(this.textBoxIssuingBody);
             this.tabPageAdv2.Controls.Add(this.textBoxTitle);
             this.tabPageAdv2.Controls.Add(this.labelExpirationDate);
@@ -264,6 +265,29 @@
             this.tabPageAdv2.Size = new System.Drawing.Size(854, 397);
             this.tabPageAdv2.Text = "Certificate";
             this.tabPageAdv2.ThemesEnabled = false;
+            // 
+            // sfDateTimeOfIssue
+            // 
+            this.sfDateTimeOfIssue.DateTimeIcon = null;
+            this.sfDateTimeOfIssue.Enabled = false;
+            this.sfDateTimeOfIssue.Location = new System.Drawing.Point(154, 141);
+            this.sfDateTimeOfIssue.Name = "sfDateTimeOfIssue";
+            this.sfDateTimeOfIssue.Size = new System.Drawing.Size(222, 24);
+            this.sfDateTimeOfIssue.TabIndex = 46;
+            this.sfDateTimeOfIssue.ToolTipText = "";
+            this.sfDateTimeOfIssue.ValueChanged += new Syncfusion.WinForms.Input.Events.DateTimeValueChangedEventHandler(this.sfDateTimeOfIssue_ValueChanged);
+            // 
+            // sfDateTimeOfExpiration
+            // 
+            this.sfDateTimeOfExpiration.DateTimeIcon = null;
+            this.sfDateTimeOfExpiration.Enabled = false;
+            this.sfDateTimeOfExpiration.Location = new System.Drawing.Point(154, 191);
+            this.sfDateTimeOfExpiration.Name = "sfDateTimeOfExpiration";
+            this.sfDateTimeOfExpiration.Size = new System.Drawing.Size(222, 24);
+            this.sfDateTimeOfExpiration.TabIndex = 45;
+            this.sfDateTimeOfExpiration.ToolTipText = "";
+            this.sfDateTimeOfExpiration.Click += new System.EventHandler(this.DatePickers_Click);
+            this.sfDateTimeOfExpiration.DoubleClick += new System.EventHandler(this.DatePickers_Click);
             // 
             // buttonConfirmCertificate
             // 
@@ -285,22 +309,6 @@
             this.buttonEditCertificate.Text = "Edit Certificate";
             this.buttonEditCertificate.UseVisualStyleBackColor = true;
             this.buttonEditCertificate.Click += new System.EventHandler(this.buttonEditCertificate_Click);
-            // 
-            // textBoxExpirationDate
-            // 
-            this.textBoxExpirationDate.Location = new System.Drawing.Point(154, 193);
-            this.textBoxExpirationDate.Name = "textBoxExpirationDate";
-            this.textBoxExpirationDate.ReadOnly = true;
-            this.textBoxExpirationDate.Size = new System.Drawing.Size(222, 22);
-            this.textBoxExpirationDate.TabIndex = 29;
-            // 
-            // textBoxDateOfIssue
-            // 
-            this.textBoxDateOfIssue.Location = new System.Drawing.Point(154, 141);
-            this.textBoxDateOfIssue.Name = "textBoxDateOfIssue";
-            this.textBoxDateOfIssue.ReadOnly = true;
-            this.textBoxDateOfIssue.Size = new System.Drawing.Size(222, 22);
-            this.textBoxDateOfIssue.TabIndex = 28;
             // 
             // textBoxIssuingBody
             // 
@@ -447,8 +455,6 @@
         private Syncfusion.Windows.Forms.Tools.TabPageAdv tabPageAdv2;
         private System.Windows.Forms.Button buttonConfirmCertificate;
         private System.Windows.Forms.Button buttonEditCertificate;
-        private System.Windows.Forms.TextBox textBoxExpirationDate;
-        private System.Windows.Forms.TextBox textBoxDateOfIssue;
         private System.Windows.Forms.TextBox textBoxIssuingBody;
         private System.Windows.Forms.TextBox textBoxTitle;
         private System.Windows.Forms.Label labelExpirationDate;
@@ -459,5 +465,7 @@
         private Syncfusion.Windows.Forms.Tools.TabPageAdv tabPageAdv3;
         private System.Windows.Forms.Label label1;
         private Syncfusion.WinForms.Controls.SfButton sfButtonDeleteAccount;
+        private Syncfusion.WinForms.Input.SfDateTimeEdit sfDateTimeOfIssue;
+        private Syncfusion.WinForms.Input.SfDateTimeEdit sfDateTimeOfExpiration;
     }
 }

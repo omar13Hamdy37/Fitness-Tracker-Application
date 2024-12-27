@@ -47,17 +47,22 @@
             this.sfButtonNextSession = new Syncfusion.WinForms.Controls.SfButton();
             this.autoLabelNumSession = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.textBoxExtSearchSession = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
+            this.labelStatus = new System.Windows.Forms.Label();
             this.sfButtonCancelEditing = new Syncfusion.WinForms.Controls.SfButton();
             this.sfButtonUpload = new Syncfusion.WinForms.Controls.SfButton();
             this.sfButtonDelete = new Syncfusion.WinForms.Controls.SfButton();
             this.sfButtonStats = new Syncfusion.WinForms.Controls.SfButton();
             this.sfButtonEdit = new Syncfusion.WinForms.Controls.SfButton();
-            this.labelStatus = new System.Windows.Forms.Label();
+            this.numericUpDownNumSeats = new System.Windows.Forms.NumericUpDown();
+            this.sfButtonReserve = new Syncfusion.WinForms.Controls.SfButton();
+            this.labelseats = new System.Windows.Forms.Label();
+            this.labelReservationExists = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.textBoxPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textBoxAddress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textBoxDescription)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textBoxExtSearchSession)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumSeats)).BeginInit();
             this.SuspendLayout();
             // 
             // DatePickers
@@ -285,6 +290,16 @@
             this.textBoxExtSearchSession.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxExtSearchSession_KeyPress);
             this.textBoxExtSearchSession.MouseEnter += new System.EventHandler(this.textBoxExtSearchSession_MouseEnter);
             // 
+            // labelStatus
+            // 
+            this.labelStatus.AutoSize = true;
+            this.labelStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelStatus.Location = new System.Drawing.Point(267, 58);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(66, 22);
+            this.labelStatus.TabIndex = 88;
+            this.labelStatus.Text = "Status:";
+            // 
             // sfButtonCancelEditing
             // 
             this.sfButtonCancelEditing.BackColor = System.Drawing.Color.White;
@@ -369,21 +384,66 @@
             this.sfButtonEdit.UseVisualStyleBackColor = false;
             this.sfButtonEdit.Click += new System.EventHandler(this.sfButtonEdit_Click);
             // 
-            // labelStatus
+            // numericUpDownNumSeats
             // 
-            this.labelStatus.AutoSize = true;
-            this.labelStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelStatus.Location = new System.Drawing.Point(267, 58);
-            this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(66, 22);
-            this.labelStatus.TabIndex = 88;
-            this.labelStatus.Text = "Status:";
+            this.numericUpDownNumSeats.Location = new System.Drawing.Point(577, 386);
+            this.numericUpDownNumSeats.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownNumSeats.Name = "numericUpDownNumSeats";
+            this.numericUpDownNumSeats.Size = new System.Drawing.Size(85, 22);
+            this.numericUpDownNumSeats.TabIndex = 89;
+            this.numericUpDownNumSeats.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownNumSeats.Visible = false;
+            // 
+            // sfButtonReserve
+            // 
+            this.sfButtonReserve.Font = new System.Drawing.Font("Segoe UI Semibold", 9F);
+            this.sfButtonReserve.Location = new System.Drawing.Point(668, 386);
+            this.sfButtonReserve.Name = "sfButtonReserve";
+            this.sfButtonReserve.Size = new System.Drawing.Size(85, 22);
+            this.sfButtonReserve.TabIndex = 90;
+            this.sfButtonReserve.Text = "Reserve";
+            this.sfButtonReserve.Visible = false;
+            this.sfButtonReserve.Click += new System.EventHandler(this.sfButtonReserve_Click);
+            // 
+            // labelseats
+            // 
+            this.labelseats.AutoSize = true;
+            this.labelseats.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelseats.Location = new System.Drawing.Point(478, 386);
+            this.labelseats.Name = "labelseats";
+            this.labelseats.Size = new System.Drawing.Size(94, 22);
+            this.labelseats.TabIndex = 91;
+            this.labelseats.Text = "No. Seats:";
+            this.labelseats.Visible = false;
+            // 
+            // labelReservationExists
+            // 
+            this.labelReservationExists.AutoSize = true;
+            this.labelReservationExists.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelReservationExists.ForeColor = System.Drawing.Color.IndianRed;
+            this.labelReservationExists.Location = new System.Drawing.Point(584, 417);
+            this.labelReservationExists.Name = "labelReservationExists";
+            this.labelReservationExists.Size = new System.Drawing.Size(169, 16);
+            this.labelReservationExists.TabIndex = 92;
+            this.labelReservationExists.Text = "Reservation already exists.";
             // 
             // AcademySessions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(836, 683);
+            this.Controls.Add(this.labelReservationExists);
+            this.Controls.Add(this.labelseats);
+            this.Controls.Add(this.sfButtonReserve);
+            this.Controls.Add(this.numericUpDownNumSeats);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.sfButtonCancelEditing);
             this.Controls.Add(this.sfButtonUpload);
@@ -420,6 +480,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.textBoxDescription)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textBoxExtSearchSession)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumSeats)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -452,5 +513,9 @@
         private Syncfusion.WinForms.Controls.SfButton sfButtonUpload;
         private Syncfusion.WinForms.Controls.SfButton sfButtonCancelEditing;
         private System.Windows.Forms.Label labelStatus;
+        private System.Windows.Forms.NumericUpDown numericUpDownNumSeats;
+        private Syncfusion.WinForms.Controls.SfButton sfButtonReserve;
+        private System.Windows.Forms.Label labelseats;
+        private System.Windows.Forms.Label labelReservationExists;
     }
 }

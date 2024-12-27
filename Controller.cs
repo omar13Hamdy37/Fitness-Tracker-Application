@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using System.Diagnostics;
+using System.Data.SqlClient;
 
 namespace DBapplication
 {
@@ -176,10 +177,37 @@ namespace DBapplication
 
             return dbMan.ExecuteReader(query);
         }
+        // Get all sessions
+        public DataTable GetAllSessions(string SortBy, int limit)
+        {
+            string query;
+            if (limit != 0)
+            {
+                query = $"SELECT TOP {limit} * FROM Sessions"; // Rebuild query to include TOP
+            }
+            else
+            { query = $"SELECT * FROM Sessions"; }
+
+            // han add sorting option based on the selected value
+            switch (SortBy.ToLower())
+            {
+                case "oldest":
+                    query += " ORDER BY Date ASC, Time ASC";
+                    break;
+                case "newest":
+                    query += " ORDER BY Date DESC, Time DESC";
+                    break;
+
+            }
+
+
+
+            return dbMan.ExecuteReader(query);
+        }
 
         // Updating academy session
 
-        
+
 
         public int AcademyUpdateSession(int sessionId,int AcademyID, string description, float price, int limit, string duration, string location, string date, string time)
         {
@@ -212,6 +240,245 @@ namespace DBapplication
             return  (int) dbMan.ExecuteScalar(query);
 
         }
+
+        // Session stats
+        public DataTable GetMembersAgeGroupOfSession(int sessionID, int academyID)
+        {
+          string query = $@"
+                           SELECT 
+                               M.Age, 
+                               COUNT(M.MemberID) AS NumberOfMembers
+                           FROM 
+                               ReservedSession RS
+                           JOIN 
+                               Members M ON RS.MemberID = M.MemberID
+                           WHERE 
+                               RS.SessionID = {sessionID }
+                               AND RS.AcademyID = {academyID}
+                           GROUP BY 
+                               M.Age
+                           ORDER BY 
+                               M.Age";
+
+          return dbMan.ExecuteReader(query);
+            
+
+        }
+        public DataTable GetMembersAgeGroupOfAcademy( int academyID)
+        {
+            string query = $@"
+                           SELECT 
+                               M.Age, 
+                               COUNT(M.MemberID) AS NumberOfMembers
+                           FROM 
+                               ReservedSession RS
+                           JOIN 
+                               Members M ON RS.MemberID = M.MemberID
+                           WHERE 
+                                RS.AcademyID = {academyID}
+                           GROUP BY 
+                               M.Age
+                           ORDER BY 
+                               M.Age";
+
+            return dbMan.ExecuteReader(query);
+
+
+        }
+        public DataTable GetMembersGenderGroupOfSession(int sessionID, int academyID)
+        {
+            string query = $@"
+                           SELECT 
+                               M.Gender, 
+                               COUNT(M.Gender) AS NumberOfMembers
+                           FROM 
+                               ReservedSession RS
+                           JOIN 
+                               Members M ON RS.MemberID = M.MemberID
+                           WHERE 
+                               RS.SessionID = {sessionID}
+                               AND RS.AcademyID = {academyID}
+                           GROUP BY 
+                               M.Gender
+";
+
+            return dbMan.ExecuteReader(query);
+
+
+        }
+
+
+        public DataTable GetMembersGenderGroupOfAcademy( int academyID)
+        {
+            string query = $@"
+                           SELECT 
+                               M.Gender, 
+                               COUNT(M.Gender) AS NumberOfMembers
+                           FROM 
+                               ReservedSession RS
+                           JOIN 
+                               Members M ON RS.MemberID = M.MemberID
+                           WHERE 
+
+                              RS.AcademyID = {academyID}
+                           GROUP BY 
+                               M.Gender
+";
+
+            return dbMan.ExecuteReader(query);
+
+
+        }
+        // Overall Stats
+
+        public int GetCountDoneSessions(int academyID, DateTime today)
+        {
+                string query = $@"
+                 SELECT COUNT(*) 
+                 FROM Sessions
+                 WHERE AcademyID = {academyID} 
+                 AND Date < '{today:yyyy-MM-dd}' 
+                 ";  
+
+
+                return (int)dbMan.ExecuteScalar(query);
+            }
+
+
+        public int GetAllSessionsCount(int academyId)
+        {
+            string query = $@"
+        SELECT COUNT(*) 
+        FROM Sessions
+        WHERE AcademyID = {academyId}";  
+
+        return (int)dbMan.ExecuteScalar(query);  // ExecuteScalar returns the first column of the first row
+        }
+
+        public int GetAverageMembersPerSession(int academyID)
+        {
+            string query = $@"
+        SELECT AVG(NumberOfMembers) AS AverageMembers
+        FROM (
+            SELECT 
+                RS.SessionID, 
+                COUNT(M.MemberID) AS NumberOfMembers
+            FROM 
+                ReservedSession RS
+            JOIN 
+                Members M ON RS.MemberID = M.MemberID
+            WHERE 
+                RS.AcademyID = {academyID}
+            GROUP BY 
+                RS.SessionID
+        ) AS smt";
+            // why does subquery need an alias? ask
+            // remember en lazem el group by condition yeba fel select
+
+            return (int)dbMan.ExecuteScalar(query); 
+        }
+        public int GetNumberOfSessions(int academyId)
+        {
+            string query = $@"
+            SELECT COUNT(*) 
+            FROM Sessions
+            WHERE AcademyID = {academyId}";
+
+            return (int)dbMan.ExecuteScalar(query);
+        }
+
+        // func to get total num of attendees ever
+
+        public int GetTotalMembersAttendedAcademy(int academyID)
+        {
+            string query = $@"
+        SELECT COUNT(RS.MemberID) 
+        FROM ReservedSession RS
+        WHERE RS.AcademyID = {academyID}";
+
+            return (int)dbMan.ExecuteScalar(query);
+
+
+        }
+        // Reserve session
+
+        public int ReserveSession(int MemberID, int SessionID, int AcademyID, int NumSeats)
+        {
+            string query = $@"
+        INSERT INTO ReservedSession (MemberID, SessionID, AcademyID, NumberOfSeats)
+        VALUES ({MemberID}, {SessionID}, {AcademyID}, {NumSeats});
+          ";
+
+            return dbMan.ExecuteNonQuery(query);
+        }
+        // Mark session as full
+
+        public int MarkSessionAsFull(int sessionId, int academyId)
+        {
+            string query = $@"
+        UPDATE Sessions
+        SET FullSession = 1
+        WHERE SessionID = {sessionId} AND AcademyID = {academyId};
+        ";
+
+            return dbMan.ExecuteNonQuery(query);
+        }
+
+        public int GetSeatsLeft(int sessionId, int academyId)
+        {
+            // negeeb limit
+            string LimitQuery = $@"
+                SELECT Limit
+                FROM Sessions
+                WHERE SessionID = {sessionId} AND AcademyID = {academyId};
+            ";
+
+            int sessionLimit = (int)dbMan.ExecuteScalar(LimitQuery);
+
+            // Get the total number of reserved seats
+            string reservedSeatsQuery = $@"
+            SELECT SUM(NumberOfSeats)
+            FROM ReservedSession
+            WHERE SessionID = {sessionId} AND AcademyID = {academyId};
+        ";
+
+            object result = dbMan.ExecuteScalar(reservedSeatsQuery);
+            int reservedSeats;
+            // result can be null if no seats
+            if (result != DBNull.Value)
+            {
+                reservedSeats =(int) result; 
+            }
+            else
+            {
+                reservedSeats = 0; 
+            }
+
+            int seatsLeft = sessionLimit - reservedSeats;
+
+            return seatsLeft;
+        }
+
+        // Check if reservation exists
+
+        public bool ReservationExists(int sessionId, int memberId, int academyId)
+        {
+
+            string query = $@"
+            SELECT COUNT(*)
+            FROM ReservedSession
+            WHERE SessionID = {sessionId}
+            AND MemberID = {memberId}
+            AND AcademyID = {academyId};
+    ";
+
+
+            int count = (int) dbMan.ExecuteScalar(query);
+
+
+            return count > 0;
+        }
+
 
 
     }

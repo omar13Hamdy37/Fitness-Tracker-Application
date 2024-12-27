@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Syncfusion.WinForms.Controls;
 using Syncfusion.Windows.Forms.Tools;
+using Syncfusion.Windows.Forms;
 
 namespace FitnessApplication
 {
@@ -21,6 +22,7 @@ namespace FitnessApplication
         AcademiesProfile ProfileForm;
         AcademiesPostSession PostSessionForm;
         AcademiesViewSessions ViewSessionsForm;
+        AcademiesOverallStats OverallStatsForm;
 
 
         int ID;
@@ -36,11 +38,12 @@ namespace FitnessApplication
             this.Username = Username;
             this.ID = ID;
             LoadAcademyInfo();
+            ConfigureMessageBoxAdv();
 
 
         }
         public void UpdateData(string NewUsername)
-        { 
+        {
             Username = NewUsername;
             LoadAcademyInfo();
         }
@@ -81,7 +84,7 @@ namespace FitnessApplication
             ProfileForm = new AcademiesProfile(ID, Username, this);
 
             ProfileForm.Show();
-            
+
 
         }
 
@@ -93,7 +96,7 @@ namespace FitnessApplication
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ViewSessionsForm = new AcademiesViewSessions(Username, ID);
+            ViewSessionsForm = new AcademiesViewSessions(Username, ID, "academy");
             ViewSessionsForm.Show();
         }
 
@@ -106,5 +109,48 @@ namespace FitnessApplication
         {
 
         }
+
+        private void buttonOverallStats_Click(object sender, EventArgs e)
+        {
+            int numSessions = controller.GetNumberOfSessions(ID);
+            int numTotalMembers = controller.GetTotalMembersAttendedAcademy(ID);
+
+            if(numSessions <= 0)
+            {
+                MessageBoxAdv.Show("You have no sessions posted.", "No Sessions", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            else if (numTotalMembers <= 0)
+            {
+                MessageBoxAdv.Show("No members have attended your sessions.", "No Members.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                OverallStatsForm = new AcademiesOverallStats(Username, ID);
+                OverallStatsForm.Show();
+            }
+
+
+                
+
+        }
+        public static void ConfigureMessageBoxAdv()
+        {
+            MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
+            var metroColorTable = MessageBoxAdv.MetroColorTable;
+            metroColorTable.BackColor = Color.White;
+            metroColorTable.ForeColor = Color.Black;
+            metroColorTable.BorderColor = Color.IndianRed;
+            metroColorTable.CaptionBarColor = Color.LightCoral;
+            metroColorTable.CaptionForeColor = Color.White;
+            metroColorTable.OKButtonBackColor = Color.LightCoral;
+            metroColorTable.YesButtonBackColor = Color.LightCoral;
+            metroColorTable.NoButtonBackColor = Color.LightCoral;
+
+
+            MessageBoxAdv.MetroColorTable = metroColorTable;
+        }
     }
 }
+    
+

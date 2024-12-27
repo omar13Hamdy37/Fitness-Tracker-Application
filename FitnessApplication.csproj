@@ -43,6 +43,8 @@
     <Reference Include="MetroFramework.Fonts, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>packages\MetroFramework.Fonts.1.2.0.3\lib\net40\MetroFramework.Fonts.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Chart.Base, Version=28.1462.33.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Chart.Windows, Version=28.1462.33.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.Core.WinForms, Version=28.1462.36.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <HintPath>packages\Syncfusion.Core.WinForms.28.1.36\lib\net462\Syncfusion.Core.WinForms.dll</HintPath>
     </Reference>
@@ -54,6 +56,8 @@
     <Reference Include="Syncfusion.Licensing, Version=28.1462.36.0, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <HintPath>packages\Syncfusion.Licensing.28.1.36\lib\net462\Syncfusion.Licensing.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.PivotAnalysis.Base, Version=28.1462.33.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.PivotChart.Windows, Version=28.1462.33.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.SfDataGrid.WinForms, Version=28.1462.33.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.SfInput.WinForms, Version=28.1462.33.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.SfListView.WinForms, Version=28.1462.33.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
@@ -69,6 +73,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -85,6 +90,12 @@
     </Compile>
     <Compile Include="Academies.Designer.cs">
       <DependentUpon>Academies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcademiesOverallStats.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AcademiesOverallStats.Designer.cs">
+      <DependentUpon>AcademiesOverallStats.cs</DependentUpon>
     </Compile>
     <Compile Include="AcademiesPostSession.cs">
       <SubType>Form</SubType>
@@ -122,6 +133,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Academies.resx">
       <DependentUpon>Academies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademiesOverallStats.resx">
+      <DependentUpon>AcademiesOverallStats.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AcademiesPostSession.resx">
       <DependentUpon>AcademiesPostSession.cs</DependentUpon>

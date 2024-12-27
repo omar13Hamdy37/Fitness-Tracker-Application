@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DBapplication;
+using Microsoft.SqlServer.Server;
 using Syncfusion.Windows.Forms;
 using Syncfusion.WinForms.Controls;
 using static System.Net.Mime.MediaTypeNames;
@@ -19,15 +20,18 @@ namespace FitnessApplication
 {
     public partial class AcademySessions : SfForm
     {
-        string Username; int AcademyID;
+        string Username; int ID;
         DataTable Sessions;
         int sessionID;
+        int AcademyID;
         int current_session_index;
+        int seats_left;
         int maxSessionsIndex;
         bool EditMode = false;
         int NumMembersAttending;
         bool Full;
         AcademiesViewSessions BaseSessionsForm;
+        string UserType;
 
         // Data of form
         string Description, Address, Date, Time, Duration;
@@ -37,12 +41,12 @@ namespace FitnessApplication
 
         // Forms
         AcademiesSessionStats StatsForm;
-        public AcademySessions(string Username, int ID, DataTable Sessions, int StartingIndex, AcademiesViewSessions BaseSessionsForm)
+        public AcademySessions(string Username, int ID, DataTable Sessions, int StartingIndex, AcademiesViewSessions BaseSessionsForm, string UserType)
         {
             InitializeComponent();
             controller = new Controller();
-            this.Username = Username; AcademyID= ID;
-            this.Sessions = Sessions;
+            this.Username = Username; this.ID= ID;
+            this.Sessions = Sessions; this.UserType = UserType;
             maxSessionsIndex = Sessions.Rows.Count - 1;
             current_session_index = StartingIndex;
             this.BaseSessionsForm = BaseSessionsForm;
@@ -53,43 +57,86 @@ namespace FitnessApplication
 
 
 
-
-
             Update_Sessions_Num_Label();
             Load_Session();
+
+
+            if (UserType != "academy")
+            {
+                sfButtonCancelEditing.Visible = false;
+                sfButtonDelete.Visible = false;
+                sfButtonEdit.Visible = false;
+                sfButtonUpload.Visible = false;
+                sfButtonStats.Visible = false;
+
+                sfButtonReserve.Visible = true;
+                numericUpDownNumSeats.Visible = true;
+                labelseats.Visible = true;
+
+
+            }
+
 
 
         }
 
         private void AcademySessions_Load(object sender, EventArgs e)
         {
+
             // Sets the back color and fore color of the title bar.
-            this.Style.TitleBar.BackColor = Color.LightCoral;
-            this.Style.TitleBar.ForeColor = Color.White;
+            if (UserType == "academy")
+            {
+                Style.TitleBar.BackColor = Color.LightCoral;
+                Style.TitleBar.ForeColor = Color.White;
 
 
-            this.Style.TitleBar.CloseButtonForeColor = Color.White;
-            this.Style.TitleBar.MinimizeButtonForeColor = Color.White;
-            this.Style.TitleBar.MaximizeButtonForeColor = Color.White;
+                Style.TitleBar.CloseButtonForeColor = Color.White;
+                Style.TitleBar.MinimizeButtonForeColor = Color.White;
+                Style.TitleBar.MaximizeButtonForeColor = Color.White;
 
 
-            this.Style.TitleBar.CloseButtonHoverBackColor = Color.IndianRed;
-            this.Style.TitleBar.MinimizeButtonHoverBackColor = Color.IndianRed;
-            this.Style.TitleBar.MaximizeButtonHoverBackColor = Color.IndianRed;
+                Style.TitleBar.CloseButtonHoverBackColor = Color.IndianRed;
+                Style.TitleBar.MinimizeButtonHoverBackColor = Color.IndianRed;
+                Style.TitleBar.MaximizeButtonHoverBackColor = Color.IndianRed;
 
-            this.Style.TitleBar.CloseButtonPressedBackColor = Color.Crimson;
-            this.Style.TitleBar.MaximizeButtonPressedBackColor = Color.Crimson;
-            this.Style.TitleBar.MinimizeButtonPressedBackColor = Color.Crimson;
+                Style.TitleBar.CloseButtonPressedBackColor = Color.Crimson;
+                Style.TitleBar.MaximizeButtonPressedBackColor = Color.Crimson;
+                Style.TitleBar.MinimizeButtonPressedBackColor = Color.Crimson;
+            }
+            else
+            {
+               Style.TitleBar.BackColor = Color.LightGreen;
+               Style.TitleBar.ForeColor = Color.ForestGreen;
+
+               Style.TitleBar.CloseButtonForeColor = Color.ForestGreen;
+               Style.TitleBar.MinimizeButtonForeColor = Color.ForestGreen;
+               Style.TitleBar.MaximizeButtonForeColor = Color.ForestGreen;
+
+               Style.TitleBar.CloseButtonHoverBackColor = Color.MediumSeaGreen;
+               Style.TitleBar.MinimizeButtonHoverBackColor = Color.MediumSeaGreen;
+               Style.TitleBar.MaximizeButtonHoverBackColor = Color.MediumSeaGreen;
+
+               Style.TitleBar.CloseButtonPressedBackColor = Color.SeaGreen;
+               Style.TitleBar.MaximizeButtonPressedBackColor = Color.SeaGreen;
+               Style.TitleBar.MinimizeButtonPressedBackColor = Color.SeaGreen;
+            }
         }
 
 
         private void Load_Session()
         {
+
+            labelReservationExists.Visible = false;
+            sfButtonReserve.Enabled = true;
+            numericUpDownNumSeats.Enabled = true;
+
             sessionID = (int) Sessions.Rows[current_session_index]["SessionID"];
+            AcademyID = (int)Sessions.Rows[current_session_index]["AcademyID"];
 
             textBoxDescription.Text = Sessions.Rows[current_session_index]["Description"].ToString();
             textBoxAddress.Text = Sessions.Rows[current_session_index]["Location"].ToString();
             numericUpDownLimit.Value = (int)Sessions.Rows[current_session_index]["Limit"];
+            limit = (int) numericUpDownLimit.Value;
             textBoxPrice.Text = Sessions.Rows[current_session_index]["Price"].ToString();
 
 
@@ -116,8 +163,34 @@ namespace FitnessApplication
             else
             {
                 labelStatus.Text += " Open";
-            }    
-            labelStatus.Text += $" ({NumMembersAttending} Attending)";
+            }
+
+            seats_left = controller.GetSeatsLeft(sessionID, AcademyID);
+
+
+            labelStatus.Text += $" ({seats_left} seats left!)";
+
+            if (Full)
+            {
+                sfButtonReserve.Enabled = false;
+                numericUpDownNumSeats.Enabled = false;
+            }
+            else
+            {
+                sfButtonReserve.Enabled = true;
+                numericUpDownNumSeats.Enabled = true;
+            }
+            if (UserType == "member" )
+            {
+                if(controller.ReservationExists(sessionID,ID,AcademyID))
+                {
+                    labelReservationExists.Visible = true;
+                    sfButtonReserve.Enabled = false;
+                    numericUpDownNumSeats.Enabled = false;
+                }
+
+
+            }
 
 
         }
@@ -248,7 +321,7 @@ namespace FitnessApplication
 
             if (result == DialogResult.Yes)
             {
-                int query_result = controller.DeleteSession(sessionID, AcademyID);
+                int query_result = controller.DeleteSession(sessionID, ID);
                 if(query_result == 1)
                 {
                     MessageBoxAdv.Show(this, "Session has been deleted.", "Session deleted ", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -305,8 +378,48 @@ namespace FitnessApplication
 
         private void sfButtonStats_Click(object sender, EventArgs e)
         {
-            StatsForm = new AcademiesSessionStats(Username, AcademyID, sessionID);
-            StatsForm.Show();
+            if (NumMembersAttending == 0)
+            {
+
+                MessageBoxAdv.Show("You have no members attending.", "No Members", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            else
+            {
+                StatsForm = new AcademiesSessionStats(Username, AcademyID, sessionID);
+                StatsForm.Show();
+            }
+        }
+
+        private void sfButtonReserve_Click(object sender, EventArgs e)
+        {
+            int num_seats = (int) numericUpDownNumSeats.Value;
+            if (num_seats + NumMembersAttending > limit)
+            {
+                MessageBoxAdv.Show("Not enough capacity.", "Reservation Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                int result = controller.ReserveSession(ID, sessionID, AcademyID, num_seats);
+                if(result == 1)
+                {
+                    MessageBoxAdv.Show($"You have reserved {num_seats} places.", "Reservation Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBoxAdv.Show("Error occurred while reserving", "Reservation Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if(num_seats + NumMembersAttending ==  limit)
+                {
+                    controller.MarkSessionAsFull(sessionID, AcademyID);
+                }
+                BaseSessionsForm.ShowResults(current_session_index);
+                this.Close();
+
+            }
+
         }
 
         private void sfButtonCancelEditing_Click(object sender, EventArgs e)
@@ -369,7 +482,7 @@ namespace FitnessApplication
                     float.TryParse(priceWithoutEGP, out float priceFloat);
 
 
-                    result = controller.AcademyUpdateSession(sessionID,AcademyID, Description, priceFloat, limit, Duration, Address, Date, Time);
+                    result = controller.AcademyUpdateSession(sessionID,ID, Description, priceFloat, limit, Duration, Address, Date, Time);
                 }
             }
             else
@@ -404,21 +517,42 @@ namespace FitnessApplication
             }
         }
 
-        public static void ConfigureMessageBoxAdv()
+        public  void ConfigureMessageBoxAdv()
         {
-            MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
-            var metroColorTable = MessageBoxAdv.MetroColorTable;
-            metroColorTable.BackColor = Color.White;
-            metroColorTable.ForeColor = Color.Black;
-            metroColorTable.BorderColor = Color.IndianRed;
-            metroColorTable.CaptionBarColor = Color.LightCoral;
-            metroColorTable.CaptionForeColor = Color.White;
-            metroColorTable.OKButtonBackColor = Color.LightCoral;
-            metroColorTable.YesButtonBackColor = Color.LightCoral;
-            metroColorTable.NoButtonBackColor = Color.LightCoral;
+
+            if (UserType == "academy")
+            {
+                MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
+                var metroColorTable = MessageBoxAdv.MetroColorTable;
+                metroColorTable.BackColor = Color.White;
+                metroColorTable.ForeColor = Color.Black;
+                metroColorTable.BorderColor = Color.IndianRed;
+                metroColorTable.CaptionBarColor = Color.LightCoral;
+                metroColorTable.CaptionForeColor = Color.White;
+                metroColorTable.OKButtonBackColor = Color.LightCoral;
+                metroColorTable.YesButtonBackColor = Color.LightCoral;
+                metroColorTable.NoButtonBackColor = Color.LightCoral;
 
 
-            MessageBoxAdv.MetroColorTable = metroColorTable;
+                MessageBoxAdv.MetroColorTable = metroColorTable;
+            }
+            else
+            {
+                MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
+                var metroColorTable = MessageBoxAdv.MetroColorTable;
+                metroColorTable.BackColor = Color.White;
+                metroColorTable.ForeColor = Color.DarkOliveGreen;
+                metroColorTable.BorderColor = Color.ForestGreen;
+                metroColorTable.CaptionBarColor = Color.MediumSeaGreen;
+                metroColorTable.CaptionForeColor = Color.White;
+                metroColorTable.OKButtonBackColor = Color.MediumSeaGreen;
+                metroColorTable.YesButtonBackColor = Color.MediumSeaGreen;
+                metroColorTable.NoButtonBackColor = Color.MediumSeaGreen;
+
+                MessageBoxAdv.MetroColorTable = metroColorTable;
+
+            }
+
         }
     }
 

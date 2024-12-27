@@ -32,6 +32,7 @@
             this.buttonViewProfile = new System.Windows.Forms.Button();
             this.buttonPostSession = new System.Windows.Forms.Button();
             this.buttonViewSession = new System.Windows.Forms.Button();
+            this.buttonOverallStats = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelWelcomeAcademy
@@ -78,11 +79,23 @@
             this.buttonViewSession.UseVisualStyleBackColor = true;
             this.buttonViewSession.Click += new System.EventHandler(this.button1_Click);
             // 
+            // buttonOverallStats
+            // 
+            this.buttonOverallStats.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonOverallStats.Location = new System.Drawing.Point(156, 398);
+            this.buttonOverallStats.Name = "buttonOverallStats";
+            this.buttonOverallStats.Size = new System.Drawing.Size(206, 49);
+            this.buttonOverallStats.TabIndex = 4;
+            this.buttonOverallStats.Text = "Overall Stats";
+            this.buttonOverallStats.UseVisualStyleBackColor = true;
+            this.buttonOverallStats.Click += new System.EventHandler(this.buttonOverallStats_Click);
+            // 
             // Academies
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 653);
+            this.Controls.Add(this.buttonOverallStats);
             this.Controls.Add(this.buttonViewProfile);
             this.Controls.Add(this.buttonViewSession);
             this.Controls.Add(this.buttonPostSession);
@@ -104,5 +117,6 @@
         private System.Windows.Forms.Button buttonViewProfile;
         private System.Windows.Forms.Button buttonPostSession;
         private System.Windows.Forms.Button buttonViewSession;
+        private System.Windows.Forms.Button buttonOverallStats;
     }
 }

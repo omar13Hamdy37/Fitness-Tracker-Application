@@ -10,33 +10,30 @@ using System.Windows.Forms;
 using Syncfusion.WinForms.Controls;
 using Syncfusion.Windows.Forms;
 using DBapplication;
-using Syncfusion.Windows.Forms.Chart;
+
 namespace FitnessApplication
 {
-    public partial class AcademiesSessionStats : SfForm
+    public partial class AcademiesOverallStats : SfForm
     {
-        String Username;
-        int AcademyID, SessionID;
-        // Controller
-        Controller controller;
 
-        // Stats
-        int NumAttending;
-        public AcademiesSessionStats(string Username, int AcademyID, int SessionID)
+        Controller controller;
+        string Username; int AcademyID;
+
+
+        int NumSessionsDone, NumSessionsOngoing, AvgNumMembers;
+        public AcademiesOverallStats(string Username, int AcademyID)
         {
             InitializeComponent();
-            this.Username = Username; this.AcademyID = AcademyID; this.SessionID = SessionID;
-
+            this.Username = Username; this.AcademyID = AcademyID;
             controller = new Controller();
-            Load_Info();
+
+            Load_Managerial();
             Update_Form();
             PopulateMemberAgeChart();
             PopulateGenderPieChart();
-
-
         }
 
-        private void AcademiesSessionStats_Load(object sender, EventArgs e)
+        private void AcademiesOverallStats_Load(object sender, EventArgs e)
         {
             // Sets the back color and fore color of the title bar.
             this.Style.TitleBar.BackColor = Color.LightCoral;
@@ -56,28 +53,26 @@ namespace FitnessApplication
             this.Style.TitleBar.MaximizeButtonPressedBackColor = Color.Crimson;
             this.Style.TitleBar.MinimizeButtonPressedBackColor = Color.Crimson;
         }
-        private void Load_Info()
+
+        private void Load_Managerial()
         {
-            NumAttending = controller.GetNumberOfMembersAttendingSession(SessionID, AcademyID);
+            NumSessionsDone = controller.GetCountDoneSessions(AcademyID, DateTime.Today);
+            NumSessionsOngoing = controller.GetAllSessionsCount(AcademyID) - NumSessionsDone;
+            AvgNumMembers = controller.GetAverageMembersPerSession(AcademyID);
+
         }
 
         private void Update_Form()
         {
-            labelNumMembersAttending.Text = NumAttending.ToString();
+            labelAvgNumMembers.Text = AvgNumMembers.ToString();
+            labelOngoingSessions.Text = NumSessionsOngoing.ToString();
+            labelSessionsDone.Text = NumSessionsDone.ToString();
         }
 
-
-        private void chartControl1_Click(object sender, EventArgs e)
+        private void PopulateMemberAgeChart()
         {
 
-        }
-
-        // Bar chart adding data
-
-        private void PopulateMemberAgeChart()       
-        {
-
-            DataTable query_result = controller.GetMembersAgeGroupOfSession(SessionID, AcademyID);
+            DataTable query_result = controller.GetMembersAgeGroupOfAcademy(AcademyID);
             if (query_result != null)
             {
                 // hay return Age, NumOfMembers
@@ -99,14 +94,12 @@ namespace FitnessApplication
 
 
             }
-            
-
 
         }
         private void PopulateGenderPieChart()
         {
 
-            DataTable query_result = controller.GetMembersGenderGroupOfSession(SessionID, AcademyID);
+            DataTable query_result = controller.GetMembersGenderGroupOfAcademy(AcademyID);
             if (query_result != null)
             {
 
@@ -167,3 +160,4 @@ namespace FitnessApplication
 
     }
 }
+

@@ -22,9 +22,11 @@ namespace FitnessApplication
         int ID, ExerciseID, MinutesExercised, PointsAwarded;
             decimal CaloriesBurned;
         int caloriesentered;
-
+        int suggestedcalories;
         string datetimetoinsert;
-       
+        int streak;
+        int allowedcalories;
+
         // For now as there is no login screen
         string Username = "alice_johnson";
         string Name;
@@ -47,7 +49,9 @@ namespace FitnessApplication
         {
             bool valid = true;
 
-         
+            suggestedcalories = controller.GetSuggestedCalories(ID);
+            allowedcalories = controller.GetAllowedCalories(ID);
+      
 
            if (memberlogexercisescombo.SelectedIndex ==-1&&memberlogcaloriestextbox.Text=="")
             {
@@ -67,7 +71,7 @@ namespace FitnessApplication
                     else
                     {
 
-                        resultoflogcalories= controller.LogCalories(ID, datetimetoinsert, caloriesentered);
+                        resultoflogcalories= controller.LogCalories(ID, datetimetoinsert, caloriesentered, allowedcalories);
                     }
                 }
                 else
@@ -169,8 +173,16 @@ namespace FitnessApplication
         }
 
         private void memberviewstreakbutton_Click(object sender, EventArgs e)
-        {
-
+        { 
+             streak =controller.GetStreak(ID);
+            if (streak > 0)
+            {
+                MessageBox.Show(" Your streak is " + streak.ToString() + " Keep it up !");
+            }
+            else
+            {
+                MessageBox.Show(" No streak :( , Log your calories for today !");
+            }
         }
 
         public void Loadlog()

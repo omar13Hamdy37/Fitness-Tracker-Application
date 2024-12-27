@@ -24,7 +24,7 @@ namespace FitnessApplication
         decimal weight, height;
         Members basemembersform;
 
-
+        int allowedcalories;
         public void LoadMProfile()
         {
           
@@ -251,7 +251,7 @@ namespace FitnessApplication
                 memberfitnessgoalcombo.Enabled = false;
                 // The base member form should have its data updated
                 basemembersform.UpdateData(NewUsername);
-
+                controller.UpdateAllowedCalorieIntake(weight, height, age, gendertext, Username);
 
             }
             else if (resultBasicInfo != 1 && resultUsernamePassword != 1 && resultFitnessGoal != 1)

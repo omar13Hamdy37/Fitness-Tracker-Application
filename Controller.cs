@@ -30,7 +30,7 @@ namespace DBapplication
         }
         // Academy Functions
         public int GetAcademyID(string username)
-        { 
+        {
             string query = $"SELECT AcademyID FROM Academies WHERE Username = '{username}'";
             return (int)dbMan.ExecuteScalar(query);
         }
@@ -126,7 +126,7 @@ namespace DBapplication
             // Session should not be empty
             int fullSession = 0;
             // new session id
-            int SessionID = GetCountSessionFromAcademy(academyId) + 1; 
+            int SessionID = GetCountSessionFromAcademy(academyId) + 1;
 
             string query = $"INSERT INTO Sessions (SessionID, Description, Price, Limit, Duration, FullSession, Location, Date, Time, AcademyID) " +
                            $"VALUES ({SessionID},'{description}', {price}, {limit}, '{duration}',{fullSession}, '{location}', '{date}', '{time}', {academyId})";
@@ -135,7 +135,7 @@ namespace DBapplication
         public int GetCountSessionFromAcademy(int ID)
         {
             string query = $"SELECT COUNT(*) FROM Sessions WHERE AcademyID = {ID}";
-            return (int) dbMan.ExecuteScalar(query);
+            return (int)dbMan.ExecuteScalar(query);
         }
 
 
@@ -223,7 +223,7 @@ namespace DBapplication
             return (string)dbMan.ExecuteScalar(query);
         }
 
-      
+
         /////////////////////////////////////fitness goal /////////////////////////////////////
         ///////////////////////////////remove the check after fixing the notnull in db/////////////////////
         public int GetMemberFitnessGoalID(int ID)
@@ -240,9 +240,9 @@ namespace DBapplication
                 return (int)result;
             }
         }
-     
+
         /// /////////////////////////////////////////////////////////////////////////
-      
+
         public string GetFitnessGoalName(int goalID)
         {
             if (goalID == 0)
@@ -279,13 +279,13 @@ namespace DBapplication
             string query = $"DELETE FROM Members WHERE MemberID = {ID}";
             return dbMan.ExecuteNonQuery(query);
         }
-       
+
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //1)edit profile 
         ///////////////////////////////////////////////////////////////
         ///   
-        public int UpdateMemberProfile(string username, string firstName, string lastName, int age, decimal weight, decimal height , char gender)
+        public int UpdateMemberProfile(string username, string firstName, string lastName, int age, decimal weight, decimal height, char gender)
         {
             string query = $"UPDATE Members " +
                            $"SET Fname = '{firstName}', Lname = '{lastName}', Age = {age}, Weight = {weight}, Height = {height}, Gender='{gender}'" +
@@ -315,7 +315,7 @@ namespace DBapplication
         }
         ////////////////////////////////////////////////////////////////
         //////////////////////////
-      
+
         public DataTable GetExercises()
         {
             string query = "SELECT * FROM Exercises";
@@ -324,14 +324,14 @@ namespace DBapplication
         }
         /////////////////////////////////////////////////////////////
 
-        public decimal GetCaloriesBurnedByExerciseID(string exercisen)  
+        public decimal GetCaloriesBurnedByExerciseID(string exercisen)
         {
             string query = $"SELECT CaloriesBurnedPerMin FROM Exercises WHERE ExerciseName =  '{exercisen}' ";
 
 
             return (decimal)(dbMan.ExecuteScalar(query));
 
-            
+
         }
         public int Getpointsearned(string exercisen)
         {
@@ -344,24 +344,24 @@ namespace DBapplication
         }
         public int GetExerciseID(string exerciseName)
         {
-           string query= $"SELECT ExerciseID FROM Exercises WHERE ExerciseName = '{exerciseName}'";
+            string query = $"SELECT ExerciseID FROM Exercises WHERE ExerciseName = '{exerciseName}'";
             return Convert.ToInt32(dbMan.ExecuteScalar(query));
         }
-        
+
         public int UpdateMemberPoints(int ID, int pointsToAdd)
         {
             string query = $"UPDATE Members SET Points = Points + {pointsToAdd} WHERE MemberID = {ID}";
             return dbMan.ExecuteNonQuery(query);
 
-        } 
-       // 4. Log Calories
-///////////////////////////////////////////////
-      //public int LogCalories(int ID, string Datetime , int caloriesConsumed)   
-      //  {
-      //      string query = $"INSERT INTO MemberLogCalories (MemberID, DateTimeLogged, CaloriesConsumed)" +
-      //                     $"VALUES ({ID},'{Datetime}', {caloriesConsumed} )";
-      //      return dbMan.ExecuteNonQuery(query);
-      //  }
+        }
+        // 4. Log Calories
+        ///////////////////////////////////////////////
+        //public int LogCalories(int ID, string Datetime , int caloriesConsumed)   
+        //  {
+        //      string query = $"INSERT INTO MemberLogCalories (MemberID, DateTimeLogged, CaloriesConsumed)" +
+        //                     $"VALUES ({ID},'{Datetime}', {caloriesConsumed} )";
+        //      return dbMan.ExecuteNonQuery(query);
+        //  }
 
         //public int LogData(int memberID, string dataName, string dataValue)
         //{
@@ -373,7 +373,7 @@ namespace DBapplication
         //////////////////////////////////////////////////////////
         public int LogCalories(int ID, string Datetime, int caloriesConsumed)
         {
-            int count = countofCaloriesRecordExist(ID, Datetime, caloriesConsumed);
+            int count = countofCaloriesRecordExist(ID, Datetime);
             if (count > 0)
             {
                 // Calorie entry for this member and date already exists
@@ -386,17 +386,25 @@ namespace DBapplication
 
             return dbMan.ExecuteNonQuery(query);
         }
-
-        private int countofCaloriesRecordExist(int memberID, string datetime, int caloriesConsumed)
+        private int countofCaloriesRecordExist(int memberID, string datetime)
         {
             string query = $"SELECT COUNT(*) FROM MemberLogCalories " +
-                           $"WHERE MemberID = {memberID} AND DateTimeLogged = '{datetime}' ";
+                           $"WHERE MemberID = {memberID} AND DateTimeLogged = '{datetime}'";
 
             return Convert.ToInt32(dbMan.ExecuteScalar(query));
         }
+        /// for streak 
+        //private int countofCaloriesRecordExist(int memberID, string datetime, int caloriesConsumed)
+        //{
+        //    string query = $"SELECT COUNT(*) FROM MemberLogCalories " +
+        //                   $"WHERE MemberID = {memberID} AND DateTimeLogged = '{datetime}' ";
+
+        //    return Convert.ToInt32(dbMan.ExecuteScalar(query));
+        //}
         ////////////////////////////////////////////////////////////////////////////
-        public int LogMemberExercise(int ID, int exerciseId, string Datetime , int minutesExercised, decimal caloriesBurned, int pointsAwarded)
-          { int count = countofLogExerciseRecordExist(ID, exerciseId, Datetime);
+        public int LogMemberExercise(int ID, int exerciseId, string Datetime, int minutesExercised, decimal caloriesBurned, int pointsAwarded)
+        {
+            int count = countofLogExerciseRecordExist(ID, exerciseId, Datetime);
             if (count > 0)
             {
                 MessageBox.Show("Exercise for this member and date already logged.");
@@ -406,12 +414,105 @@ namespace DBapplication
                            $"VALUES ({ID},{exerciseId},'{Datetime}', {minutesExercised},{caloriesBurned},{pointsAwarded})";
             return dbMan.ExecuteNonQuery(query);
         }
-        ///////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////to count law dakhal before //////////////////
         private int countofLogExerciseRecordExist(int ID, int exerciseId, string datetime)
         {
             string query = $"SELECT COUNT(*) FROM MemberLogExercise WHERE MemberID = {ID} AND ExerciseID = {exerciseId} AND DateTimeLogged = '{datetime}'";
-           
+
             return Convert.ToInt32(dbMan.ExecuteScalar(query));
         }
+        ////////////////////////////////////////////////////////////////////////////////////////for streak///////////////////////////////////////////////
+        public int GetSuggestedCalories(int ID)
+        {
+            string query = $"SELECT SuggestedCalories FROM Members WHERE MemberID = {ID}";
+
+            return Convert.ToInt32(dbMan.ExecuteScalar(query));
+        }
+        public int GetAllowedCalories(int memberID)
+        {
+            string query = $"SELECT AllowedCalories FROM Members WHERE MemberID = {memberID}";
+
+            return Convert.ToInt32(dbMan.ExecuteScalar(query));
+        }
+        public int LogCalories(int memberID, string datetime, int caloriesConsumed, int allowedcalories)
+        {
+            int count = countofCaloriesRecordExist(memberID, datetime);
+            if (count > 0)
+            {
+                MessageBox.Show("Calories for this member and date already logged.");
+                return 0;
+            }
+
+            string query = $"INSERT INTO MemberLogCalories (MemberID, DateTimeLogged, CaloriesConsumed) " +
+                           $"VALUES ({memberID}, '{datetime}', {caloriesConsumed})";
+
+            int insertion = dbMan.ExecuteNonQuery(query);
+
+            if (insertion > 0)
+            {
+                if (caloriesConsumed <= allowedcalories)
+                {
+                    UpdateStreak(memberID);
+                }
+                else
+                {
+                    ResetStreak(memberID);
+                }
+            }
+
+            return insertion;
+        }
+
+
+
+        private void UpdateStreak(int ID)
+        {
+            string query = $"UPDATE Members SET Streak = Streak + 1 WHERE MemberID = {ID}";
+
+            dbMan.ExecuteNonQuery(query);
+        }
+
+        private void ResetStreak(int ID)
+        {
+            string query = $"UPDATE Members SET Streak = 0 WHERE MemberID = {ID}";
+
+            dbMan.ExecuteNonQuery(query);
+        }
+        public int GetStreak(int ID)
+        {
+            string query = $"SELECT Streak FROM Members WHERE MemberID = {ID}";
+
+            return Convert.ToInt32(dbMan.ExecuteScalar(query));
+        }
+        /////////////////////updating allowed calories with weight and height ....///////
+        public int UpdateAllowedCalorieIntake(decimal weight, decimal height, int age, char gender, string username)
+        {
+            int caloriess;
+
+            // Calculate BMR based on gender using an if condition
+            if (gender == 'M')
+            {
+                // Male BMR calculation
+                caloriess = (int)(88.362 + (13.397 * (double)weight) + (4.799 * (double)height) - (5.677 * age));
+            }
+            else if (gender == 'F')
+            {
+                // Female BMR calculation
+                caloriess = (int)(447.593 + (9.247 * (double)weight) + (3.098 * (double)height) - (4.330 * age));
+            }
+            else
+            {
+                MessageBox.Show(" problem with gender in update allowedcalorieintake function");
+                caloriess = 0;
+            }
+
+
+            // SQL query to update the AllowedCalorieIntake
+            string query = $"UPDATE Members " +
+                           $"SET AllowedCalorieIntake = {caloriess} " +
+                           $"WHERE Username = '{username}'";
+
+            return dbMan.ExecuteNonQuery(query);
+        }
     }
-}
+    }

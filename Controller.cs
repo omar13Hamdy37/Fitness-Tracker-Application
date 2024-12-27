@@ -8,6 +8,11 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using System.Diagnostics;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Collections;
+using System.Data.SqlClient;
+using FitnessApplication;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace DBapplication
 {
@@ -218,38 +223,195 @@ namespace DBapplication
             return (string)dbMan.ExecuteScalar(query);
         }
 
-        
+      
+        /////////////////////////////////////fitness goal /////////////////////////////////////
+        ///////////////////////////////remove the check after fixing the notnull in db/////////////////////
+        public int GetMemberFitnessGoalID(int ID)
+        {
+            string query = $"SELECT FitnessGoalID FROM Members WHERE MemberID = {ID}";
+            object result = dbMan.ExecuteScalar(query);
+
+            if (result == DBNull.Value)
+            {
+                return 0;
+            }
+            else
+            {
+                return (int)result;
+            }
+        }
+     
+        /// /////////////////////////////////////////////////////////////////////////
+      
+        public string GetFitnessGoalName(int goalID)
+        {
+            if (goalID == 0)
+                return "";
+
+            string query = $"SELECT GoalName FROM FitnessGoals WHERE GoalID = {goalID}";
+            return (string)dbMan.ExecuteScalar(query);
+        }
+
+        public int UpdateUsernamePasswordmember(string OldUsername, string NewUsername, string password)
+        {
+            string query = $"UPDATE Users SET Username = '{NewUsername}', Password = '{password}' WHERE Username = '{OldUsername}'";
+            return dbMan.ExecuteNonQuery(query);
+        }
+
+        //public int UpdateUsernamePasswordmember(string OldUsername, string NewUsername, string password)
+        //{
+        //    // First, set the old username to null
+        //    string query1 = $"UPDATE Members SET Username = NULL WHERE Username = '{OldUsername}'";
+        //    dbMan.ExecuteNonQuery(query1);
+
+        //    // Then, update the username 
+        //    string query = $"UPDATE Users SET Username = '{NewUsername}', Password = '{password}' WHERE Username IS NULL";
+        //    return dbMan.ExecuteNonQuery(query);
+
+        //}
+        public int DeleteMemberByID(int ID)
+        {
+            // Update the Username in Users table to NULL
+            string query1 = $"UPDATE Users SET Username = NULL WHERE MemberID = {ID}";
+            dbMan.ExecuteNonQuery(query1);
+
+            // Delete the member from the Members table
+            string query = $"DELETE FROM Members WHERE MemberID = {ID}";
+            return dbMan.ExecuteNonQuery(query);
+        }
+       
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //1)edit profile 
         ///////////////////////////////////////////////////////////////
         ///   
-        public int UpdateMemberProfile(string username, string firstName, string lastName, int age, float weight, float height, int dietId)
+        public int UpdateMemberProfile(string username, string firstName, string lastName, int age, decimal weight, decimal height , char gender)
         {
             string query = $"UPDATE Members " +
-                           $"SET Fname = '{firstName}', Lname = '{lastName}', Age = {age}, Weight = {weight}, Height = {height}, DietID = {dietId} " +
+                           $"SET Fname = '{firstName}', Lname = '{lastName}', Age = {age}, Weight = {weight}, Height = {height}, Gender='{gender}'" +
                            $"WHERE Username = '{username}'";
             return dbMan.ExecuteNonQuery(query);
         }
         ////////////////////////////////////////////////////////////
         //2)Choose a Fitness Goal
         ////////////////////////////////////////////////////////////////////
-        public int SetFitnessGoal(string username, string goalName)
+        public int GetFitnessGoalIDByName(string goalName)
         {
-            string query = $"UPDATE Members " +
-                           $"SET FitnessGoalID = (SELECT GoalID FROM FitnessGoals WHERE GoalName = '{goalName}') " +
-                           $"WHERE Username = '{username}'";
+            string query = $"SELECT GoalID FROM FitnessGoals WHERE GoalName = '{goalName}'";
+            object result = dbMan.ExecuteScalar(query);
+            return (int)result;
+        }
+
+        public int UpdateMemberFitnessGoal(string username, int goalID)
+        {
+            string query = $"UPDATE Members SET FitnessGoalID = {goalID} WHERE Username = '{username}'";
             return dbMan.ExecuteNonQuery(query);
         }
+
+        public int SetFitnessGoal(string username, string fitnessgoalName)
+        {
+            int goalID = GetFitnessGoalIDByName(fitnessgoalName);
+            return UpdateMemberFitnessGoal(username, goalID);
+        }
         ////////////////////////////////////////////////////////////////
+        //////////////////////////
+      
+        public DataTable GetExercises()
+        {
+            string query = "SELECT * FROM Exercises";
+            DataTable dt = dbMan.ExecuteReader(query);
+            return dt;
+        }
+        /////////////////////////////////////////////////////////////
+
+        public decimal GetCaloriesBurnedByExerciseID(string exercisen)  
+        {
+            string query = $"SELECT CaloriesBurnedPerMin FROM Exercises WHERE ExerciseName =  '{exercisen}' ";
+
+
+            return (decimal)(dbMan.ExecuteScalar(query));
+
+            
+        }
+        public int Getpointsearned(string exercisen)
+        {
+            string query = $"SELECT PointsPerMin FROM Exercises WHERE ExerciseName =  '{exercisen}' ";
+
+
+            return Convert.ToInt32(dbMan.ExecuteScalar(query));
+
+
+        }
+        public int GetExerciseID(string exerciseName)
+        {
+           string query= $"SELECT ExerciseID FROM Exercises WHERE ExerciseName = '{exerciseName}'";
+            return Convert.ToInt32(dbMan.ExecuteScalar(query));
+        }
+        
+        public int UpdateMemberPoints(int ID, int pointsToAdd)
+        {
+            string query = $"UPDATE Members SET Points = Points + {pointsToAdd} WHERE MemberID = {ID}";
+            return dbMan.ExecuteNonQuery(query);
+
+        } 
+       // 4. Log Calories
+///////////////////////////////////////////////
+      //public int LogCalories(int ID, string Datetime , int caloriesConsumed)   
+      //  {
+      //      string query = $"INSERT INTO MemberLogCalories (MemberID, DateTimeLogged, CaloriesConsumed)" +
+      //                     $"VALUES ({ID},'{Datetime}', {caloriesConsumed} )";
+      //      return dbMan.ExecuteNonQuery(query);
+      //  }
+
+        //public int LogData(int memberID, string dataName, string dataValue)
+        //{
+        //    string query = $"INSERT INTO MemberLogData (MemberID, DataName, DataValue, LogDate) " +
+        //                   $"VALUES ({memberID}, '{dataName}', '{dataValue}', GETDATE())";
+        //    return dbMan.ExecuteNonQuery(query);
+        //}
         //3)Log Exercise
         //////////////////////////////////////////////////////////
-        public int LogMemberExercise(string username, int exerciseId, int minutesExercised, int caloriesBurned, int pointsAwarded)
+        public int LogCalories(int ID, string Datetime, int caloriesConsumed)
         {
-            string query = $"INSERT INTO MemberLogExercise (MemberID, ExerciseID, DateTimeLogged, MinutesExercised, CaloriesBurned, PointsAwarded) " +
-                           $"VALUES ((SELECT MemberID FROM Members WHERE Username = '{username}'), {exerciseId}, GETDATE(), {minutesExercised}, {caloriesBurned}, {pointsAwarded})";
+            int count = countofCaloriesRecordExist(ID, Datetime, caloriesConsumed);
+            if (count > 0)
+            {
+                // Calorie entry for this member and date already exists
+                MessageBox.Show("Calories for this member on this date is already logged.");
+                return 0;
+            }
+
+            string query = $"INSERT INTO MemberLogCalories (MemberID, DateTimeLogged, CaloriesConsumed) " +
+                           $"VALUES ({ID}, '{Datetime}', {caloriesConsumed})";
+
+            return dbMan.ExecuteNonQuery(query);
+        }
+
+        private int countofCaloriesRecordExist(int memberID, string datetime, int caloriesConsumed)
+        {
+            string query = $"SELECT COUNT(*) FROM MemberLogCalories " +
+                           $"WHERE MemberID = {memberID} AND DateTimeLogged = '{datetime}' ";
+
+            return Convert.ToInt32(dbMan.ExecuteScalar(query));
+        }
+        ////////////////////////////////////////////////////////////////////////////
+        public int LogMemberExercise(int ID, int exerciseId, string Datetime , int minutesExercised, decimal caloriesBurned, int pointsAwarded)
+          { int count = countofLogExerciseRecordExist(ID, exerciseId, Datetime);
+            if (count > 0)
+            {
+                MessageBox.Show("Exercise for this member and date already logged.");
+                return 0;
+            }
+            string query = $"INSERT INTO  MemberLogExercise(MemberID, ExerciseID, DateTimeLogged, MinutesExercised, CaloriesBurned, PointsAwarded) " +
+                           $"VALUES ({ID},{exerciseId},'{Datetime}', {minutesExercised},{caloriesBurned},{pointsAwarded})";
             return dbMan.ExecuteNonQuery(query);
         }
         ///////////////////////////////////////////////////////////////
-
+        private int countofLogExerciseRecordExist(int ID, int exerciseId, string datetime)
+        {
+            string query = $"SELECT COUNT(*) FROM MemberLogExercise WHERE MemberID = {ID} AND ExerciseID = {exerciseId} AND DateTimeLogged = '{datetime}'";
+           
+            return Convert.ToInt32(dbMan.ExecuteScalar(query));
+        }
     }
 }

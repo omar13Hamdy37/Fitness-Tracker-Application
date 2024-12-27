@@ -30,6 +30,9 @@ namespace FitnessApplication
         public AcademiesProfile(int ID, string Username, Academies BaseAcademyForm)
         {
             InitializeComponent();
+            this.tabPageAdv1.Text = "Profile";
+            this.tabPageAdv2.Text = "Certificate";
+            this.tabPageAdv3.Text = "Account Settings";
             controller = new Controller();
             this.ID = ID;
             this.Username = Username;
@@ -78,6 +81,11 @@ namespace FitnessApplication
 
                 MessageBoxAdv.Show(this, "Account deletion canceled.", "Action Canceled", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
+        }
+
+        private void textBoxDescription_TextChanged(object sender, EventArgs e)
+        {
 
         }
 

@@ -172,7 +172,7 @@
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.BeforeTouchSize = new System.Drawing.Size(100, 22);
+            this.textBoxDescription.BeforeTouchSize = new System.Drawing.Size(222, 92);
             this.textBoxDescription.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(211)))), ((int)(((byte)(212)))));
             this.textBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxDescription.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
@@ -186,7 +186,7 @@
             // 
             // textBoxAddress
             // 
-            this.textBoxAddress.BeforeTouchSize = new System.Drawing.Size(100, 22);
+            this.textBoxAddress.BeforeTouchSize = new System.Drawing.Size(222, 92);
             this.textBoxAddress.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(211)))), ((int)(((byte)(212)))));
             this.textBoxAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxAddress.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
@@ -212,7 +212,7 @@
             // textBoxPrice
             // 
             this.textBoxPrice.AccessibilityEnabled = true;
-            this.textBoxPrice.BeforeTouchSize = new System.Drawing.Size(100, 22);
+            this.textBoxPrice.BeforeTouchSize = new System.Drawing.Size(222, 92);
             this.textBoxPrice.CurrencySymbol = "EGP ";
             this.textBoxPrice.DecimalValue = new decimal(new int[] {
             100,
@@ -224,6 +224,7 @@
             this.textBoxPrice.Size = new System.Drawing.Size(100, 22);
             this.textBoxPrice.TabIndex = 42;
             this.textBoxPrice.Text = "EGP 1.00";
+            this.textBoxPrice.TextChanged += new System.EventHandler(this.textBoxPrice_TextChanged);
             // 
             // buttonPostSession
             // 

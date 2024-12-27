@@ -49,6 +49,7 @@
             this.sfComboBoxSortBy.Location = new System.Drawing.Point(238, 56);
             this.sfComboBoxSortBy.Name = "sfComboBoxSortBy";
             this.sfComboBoxSortBy.Size = new System.Drawing.Size(161, 29);
+            this.sfComboBoxSortBy.Style.EditorStyle.BackColor = System.Drawing.Color.White;
             this.sfComboBoxSortBy.Style.EditorStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.sfComboBoxSortBy.Style.ReadOnlyEditorStyle.BackColor = System.Drawing.Color.White;
             this.sfComboBoxSortBy.Style.TokenStyle.CloseButtonBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -113,6 +114,7 @@
             this.Controls.Add(this.labelSortBy);
             this.Controls.Add(this.sfComboBoxSortBy);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "AcademiesViewSessions";
             this.Style.MdiChild.IconHorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             this.Style.MdiChild.IconVerticalAlignment = System.Windows.Forms.VisualStyles.VerticalAlignment.Center;

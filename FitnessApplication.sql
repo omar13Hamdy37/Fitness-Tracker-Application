@@ -64,7 +64,7 @@ DietID int,
 Username varchar(50) not null,
 
 Foreign Key (Username) References Users(Username)
-ON DELETE CASCADE
+ON DELETE NO ACTION
 ON UPDATE NO ACTION,
 
 Foreign Key (FitnessGoalID) References FitnessGoals(GoalID)

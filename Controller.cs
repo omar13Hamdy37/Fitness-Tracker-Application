@@ -177,7 +177,41 @@ namespace DBapplication
             return dbMan.ExecuteReader(query);
         }
 
+        // Updating academy session
 
+        
+
+        public int AcademyUpdateSession(int sessionId,int AcademyID, string description, float price, int limit, string duration, string location, string date, string time)
+        {
+            string query = $"UPDATE Sessions SET Description = '{description}', Price = {price}, Limit = {limit}, " +
+                           $"Duration = '{duration}', Location = '{location}', Date = '{date}', Time = '{time}' " +
+                           $"WHERE SessionID = {sessionId} AND AcademyID = {AcademyID}";
+
+            return dbMan.ExecuteNonQuery(query);
+        }
+
+
+        // Deleting Session
+
+        public int DeleteSession(int sessionId, int academyId)
+        {
+            string query = $"DELETE FROM Sessions " +
+                           $"WHERE SessionID = {sessionId} AND AcademyID = {academyId}";
+
+            return dbMan.ExecuteNonQuery(query);
+        }
+
+        // Getting num of ppl attending
+
+        public int GetNumberOfMembersAttendingSession(int sessionId, int academyId)
+        {
+            string query = $"SELECT COUNT(MemberID) " +
+                           $"FROM ReservedSession " +
+                           $"WHERE SessionID = {sessionId} AND AcademyID = {academyId}";
+
+            return  (int) dbMan.ExecuteScalar(query);
+
+        }
 
 
     }

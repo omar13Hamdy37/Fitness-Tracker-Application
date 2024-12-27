@@ -18,7 +18,7 @@ namespace FitnessApplication
             Application.SetCompatibleTextRenderingDefault(false);
             SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NMaF5cXmVCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWH1cdnRRQmheV0B1Wkc=");
             // Application.Run(new AcademiesViewSessions("FlexFitAcademy", 5));
-            Application.Run(new AcademiesViewSessions("KickFitAcademy", 1));
+            Application.Run(new Academies("KickFitAcademy", 1));
         }
     }
 }

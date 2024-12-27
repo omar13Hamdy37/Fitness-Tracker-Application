@@ -50,10 +50,10 @@ namespace FitnessApplication
 
         private void textBoxPrice_TextChanged(object sender, EventArgs e)
         {
-            string priceString = textBoxPrice.Text;
+            string priceString = textBoxPrice.Text.Substring(3);
             if (float.TryParse(priceString, out priceFloat))
             {
-                if(priceFloat > 0) {checkBoxFree.Checked = false;}
+                if (priceFloat > 0) { checkBoxFree.Checked = false; }
             }
             else
             {

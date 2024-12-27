@@ -60,16 +60,19 @@ namespace FitnessApplication
             this.Style.TitleBar.MinimizeButtonPressedBackColor = Color.Crimson;
         }
 
-        private void sfButtonShow_Click(object sender, EventArgs e)
-        {
-            string SortBy = (string)sfComboBoxSortBy.SelectedValue;
-            string LimitString = (string) sfComboBoxLimit.SelectedValue;
-            // Default
-            int LimitInt = 0; 
 
-            if (LimitString.ToLower() != "none" )
+        public void ShowResults(int StartingIndex)
+        {
+            if (StartingIndex < 0)
+                StartingIndex = 0;
+            string SortBy = (string)sfComboBoxSortBy.SelectedValue;
+            string LimitString = (string)sfComboBoxLimit.SelectedValue;
+            // Default
+            int LimitInt = 0;
+
+            if (LimitString.ToLower() != "none")
             {
-                LimitInt = int.Parse( LimitString );
+                LimitInt = int.Parse(LimitString);
             }
 
             DataTable Sessions = controller.GetAcademySessions(ID, SortBy, LimitInt);
@@ -85,10 +88,14 @@ namespace FitnessApplication
             else
             {
 
-                SessionsForm = new AcademySessions(Username, ID, Sessions);
+                SessionsForm = new AcademySessions(Username, ID, Sessions, StartingIndex, this);
                 SessionsForm.Show();
 
             }
+        }
+        private void sfButtonShow_Click(object sender, EventArgs e)
+        {
+            ShowResults(0);
         }
     }
 }

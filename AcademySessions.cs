@@ -33,6 +33,8 @@ namespace FitnessApplication
         AcademiesViewSessions BaseSessionsForm;
         string UserType;
 
+        bool MemberEditMode = false;
+
         // Data of form
         string Description, Address, Date, Time, Duration;
         int limit; float priceFloat;
@@ -72,6 +74,8 @@ namespace FitnessApplication
                 sfButtonReserve.Visible = true;
                 numericUpDownNumSeats.Visible = true;
                 labelseats.Visible = true;
+
+
 
 
             }
@@ -126,6 +130,7 @@ namespace FitnessApplication
         private void Load_Session()
         {
 
+            sfButtonCancelReservEditing.Visible = false;
             labelReservationExists.Visible = false;
             sfButtonReserve.Enabled = true;
             numericUpDownNumSeats.Enabled = true;
@@ -149,7 +154,7 @@ namespace FitnessApplication
 
             NumMembersAttending = controller.GetNumberOfMembersAttendingSession(sessionID, AcademyID);
 
-            Full = (bool) Sessions.Rows[current_session_index]["FullSession"];
+            Full = controller.IsSessionFull(sessionID,AcademyID);
 
             labelStatus.Text = "Status:";
             if(DatePickers.Value > DateTime.Now)
@@ -187,6 +192,20 @@ namespace FitnessApplication
                     labelReservationExists.Visible = true;
                     sfButtonReserve.Enabled = false;
                     numericUpDownNumSeats.Enabled = false;
+
+                    int numseats = controller.GetNumberOfSeatsOfMember(sessionID, ID, AcademyID);
+                    numericUpDownNumSeats.Value = numseats;
+                    sfButtonEditReservation.Visible = true;
+                    sfButtonDeleteReservation.Visible = true;
+                    sfButtonEditReservation.Enabled = true;
+                    sfButtonDeleteReservation.Enabled = true;
+                }
+                else
+                {
+                    numericUpDownNumSeats.Value = 1;
+                    sfButtonEditReservation.Visible = false;
+                    sfButtonDeleteReservation.Visible = false;
+                    MemberEditMode = false;
                 }
 
 
@@ -393,8 +412,14 @@ namespace FitnessApplication
 
         private void sfButtonReserve_Click(object sender, EventArgs e)
         {
-            int num_seats = (int) numericUpDownNumSeats.Value;
-            if (num_seats + NumMembersAttending > limit)
+            int num_seats = (int)numericUpDownNumSeats.Value;
+            if (MemberEditMode)
+            {
+                controller.DeleteReservation(sessionID, ID, AcademyID);
+                
+            }
+
+            if (num_seats + controller.GetNumberOfMembersAttendingSession(sessionID,AcademyID) > limit)
             {
                 MessageBoxAdv.Show("Not enough capacity.", "Reservation Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -411,14 +436,47 @@ namespace FitnessApplication
                     MessageBoxAdv.Show("Error occurred while reserving", "Reservation Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if(num_seats + NumMembersAttending ==  limit)
+                if(controller.GetSeatsTaken(sessionID,AcademyID) ==  limit)
                 {
                     controller.MarkSessionAsFull(sessionID, AcademyID);
                 }
-                BaseSessionsForm.ShowResults(current_session_index);
-                this.Close();
+                Load_Session();
 
             }
+
+        }
+
+        private void sfButtonEditReservation_Click(object sender, EventArgs e)
+        {
+            sfButtonReserve.Enabled = true;
+            numericUpDownNumSeats.Enabled = true;
+            MemberEditMode = true;
+            numericUpDownNumSeats.Value = 1;
+            sfButtonEditReservation.Visible = false;
+            sfButtonCancelReservEditing.Visible = true;
+
+        }
+
+        private void sfButtonDeleteReservation_Click(object sender, EventArgs e)
+        {
+            controller.DeleteReservation(sessionID, ID, AcademyID);
+            numericUpDownNumSeats.Enabled = false;
+            EditMode = false;
+            sfButtonEditReservation.Enabled = false;
+            sfButtonDeleteReservation.Enabled = false;
+            labelReservationExists.Visible = false;
+            controller.MarkSessionAsNotFull(sessionID,AcademyID);
+
+            sfButtonReserve.Enabled=true;
+            numericUpDownNumSeats.Enabled=true;
+            Load_Session();
+        }
+
+        private void sfButtonCancelReservEditing_Click(object sender, EventArgs e)
+        {
+            Load_Session();
+            sfButtonCancelReservEditing.Visible=false;
+            sfButtonEditReservation.Visible=true;
 
         }
 

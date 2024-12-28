@@ -129,6 +129,18 @@
     </Compile>
     <Compile Include="Controller.cs" />
     <Compile Include="DBManager.cs" />
+    <Compile Include="MemberMealPlans.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberMealPlans.Designer.cs">
+      <DependentUpon>MemberMealPlans.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MemberViewMealPlans.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberViewMealPlans.Designer.cs">
+      <DependentUpon>MemberViewMealPlans.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Academies.resx">
@@ -151,6 +163,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AcademySessions.resx">
       <DependentUpon>AcademySessions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberMealPlans.resx">
+      <DependentUpon>MemberMealPlans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberViewMealPlans.resx">
+      <DependentUpon>MemberViewMealPlans.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -48,15 +48,18 @@
             this.autoLabelNumSession = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.textBoxExtSearchSession = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
             this.labelStatus = new System.Windows.Forms.Label();
+            this.numericUpDownNumSeats = new System.Windows.Forms.NumericUpDown();
+            this.sfButtonReserve = new Syncfusion.WinForms.Controls.SfButton();
+            this.labelseats = new System.Windows.Forms.Label();
+            this.labelReservationExists = new System.Windows.Forms.Label();
             this.sfButtonCancelEditing = new Syncfusion.WinForms.Controls.SfButton();
             this.sfButtonUpload = new Syncfusion.WinForms.Controls.SfButton();
             this.sfButtonDelete = new Syncfusion.WinForms.Controls.SfButton();
             this.sfButtonStats = new Syncfusion.WinForms.Controls.SfButton();
             this.sfButtonEdit = new Syncfusion.WinForms.Controls.SfButton();
-            this.numericUpDownNumSeats = new System.Windows.Forms.NumericUpDown();
-            this.sfButtonReserve = new Syncfusion.WinForms.Controls.SfButton();
-            this.labelseats = new System.Windows.Forms.Label();
-            this.labelReservationExists = new System.Windows.Forms.Label();
+            this.sfButtonDeleteReservation = new Syncfusion.WinForms.Controls.SfButton();
+            this.sfButtonEditReservation = new Syncfusion.WinForms.Controls.SfButton();
+            this.sfButtonCancelReservEditing = new Syncfusion.WinForms.Controls.SfButton();
             ((System.ComponentModel.ISupportInitialize)(this.textBoxPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textBoxAddress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textBoxDescription)).BeginInit();
@@ -79,7 +82,7 @@
             // textBoxPrice
             // 
             this.textBoxPrice.AccessibilityEnabled = true;
-            this.textBoxPrice.BeforeTouchSize = new System.Drawing.Size(222, 92);
+            this.textBoxPrice.BeforeTouchSize = new System.Drawing.Size(321, 149);
             this.textBoxPrice.CurrencySymbol = "EGP ";
             this.textBoxPrice.DecimalValue = new decimal(new int[] {
             100,
@@ -96,7 +99,7 @@
             // 
             // textBoxAddress
             // 
-            this.textBoxAddress.BeforeTouchSize = new System.Drawing.Size(222, 92);
+            this.textBoxAddress.BeforeTouchSize = new System.Drawing.Size(321, 149);
             this.textBoxAddress.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(211)))), ((int)(((byte)(212)))));
             this.textBoxAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxAddress.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
@@ -111,7 +114,7 @@
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.BeforeTouchSize = new System.Drawing.Size(222, 92);
+            this.textBoxDescription.BeforeTouchSize = new System.Drawing.Size(321, 149);
             this.textBoxDescription.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(211)))), ((int)(((byte)(212)))));
             this.textBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxDescription.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
@@ -277,7 +280,7 @@
             // 
             // textBoxExtSearchSession
             // 
-            this.textBoxExtSearchSession.BeforeTouchSize = new System.Drawing.Size(222, 92);
+            this.textBoxExtSearchSession.BeforeTouchSize = new System.Drawing.Size(321, 149);
             this.textBoxExtSearchSession.ForeColor = System.Drawing.SystemColors.ButtonShadow;
             this.textBoxExtSearchSession.Location = new System.Drawing.Point(367, 503);
             this.textBoxExtSearchSession.Name = "textBoxExtSearchSession";
@@ -299,6 +302,57 @@
             this.labelStatus.Size = new System.Drawing.Size(66, 22);
             this.labelStatus.TabIndex = 88;
             this.labelStatus.Text = "Status:";
+            // 
+            // numericUpDownNumSeats
+            // 
+            this.numericUpDownNumSeats.Location = new System.Drawing.Point(577, 386);
+            this.numericUpDownNumSeats.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownNumSeats.Name = "numericUpDownNumSeats";
+            this.numericUpDownNumSeats.Size = new System.Drawing.Size(85, 22);
+            this.numericUpDownNumSeats.TabIndex = 89;
+            this.numericUpDownNumSeats.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownNumSeats.Visible = false;
+            // 
+            // sfButtonReserve
+            // 
+            this.sfButtonReserve.Font = new System.Drawing.Font("Segoe UI Semibold", 9F);
+            this.sfButtonReserve.Location = new System.Drawing.Point(668, 386);
+            this.sfButtonReserve.Name = "sfButtonReserve";
+            this.sfButtonReserve.Size = new System.Drawing.Size(85, 22);
+            this.sfButtonReserve.TabIndex = 90;
+            this.sfButtonReserve.Text = "Reserve";
+            this.sfButtonReserve.Visible = false;
+            this.sfButtonReserve.Click += new System.EventHandler(this.sfButtonReserve_Click);
+            // 
+            // labelseats
+            // 
+            this.labelseats.AutoSize = true;
+            this.labelseats.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelseats.Location = new System.Drawing.Point(478, 386);
+            this.labelseats.Name = "labelseats";
+            this.labelseats.Size = new System.Drawing.Size(94, 22);
+            this.labelseats.TabIndex = 91;
+            this.labelseats.Text = "No. Seats:";
+            this.labelseats.Visible = false;
+            // 
+            // labelReservationExists
+            // 
+            this.labelReservationExists.AutoSize = true;
+            this.labelReservationExists.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelReservationExists.ForeColor = System.Drawing.Color.IndianRed;
+            this.labelReservationExists.Location = new System.Drawing.Point(584, 417);
+            this.labelReservationExists.Name = "labelReservationExists";
+            this.labelReservationExists.Size = new System.Drawing.Size(169, 16);
+            this.labelReservationExists.TabIndex = 92;
+            this.labelReservationExists.Text = "Reservation already exists.";
             // 
             // sfButtonCancelEditing
             // 
@@ -384,62 +438,67 @@
             this.sfButtonEdit.UseVisualStyleBackColor = false;
             this.sfButtonEdit.Click += new System.EventHandler(this.sfButtonEdit_Click);
             // 
-            // numericUpDownNumSeats
+            // sfButtonDeleteReservation
             // 
-            this.numericUpDownNumSeats.Location = new System.Drawing.Point(577, 386);
-            this.numericUpDownNumSeats.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownNumSeats.Name = "numericUpDownNumSeats";
-            this.numericUpDownNumSeats.Size = new System.Drawing.Size(85, 22);
-            this.numericUpDownNumSeats.TabIndex = 89;
-            this.numericUpDownNumSeats.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownNumSeats.Visible = false;
+            this.sfButtonDeleteReservation.BackColor = System.Drawing.Color.White;
+            this.sfButtonDeleteReservation.Font = new System.Drawing.Font("Segoe UI Semibold", 9F);
+            this.sfButtonDeleteReservation.ForeColor = System.Drawing.Color.Transparent;
+            this.sfButtonDeleteReservation.ImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.sfButtonDeleteReservation.Location = new System.Drawing.Point(794, 375);
+            this.sfButtonDeleteReservation.Name = "sfButtonDeleteReservation";
+            this.sfButtonDeleteReservation.Size = new System.Drawing.Size(40, 43);
+            this.sfButtonDeleteReservation.Style.BackColor = System.Drawing.Color.White;
+            this.sfButtonDeleteReservation.Style.ForeColor = System.Drawing.Color.Transparent;
+            this.sfButtonDeleteReservation.Style.Image = global::FitnessApplication.Properties.Resources.trash;
+            this.sfButtonDeleteReservation.TabIndex = 93;
+            this.sfButtonDeleteReservation.TabStop = false;
+            this.sfButtonDeleteReservation.UseVisualStyleBackColor = true;
+            this.sfButtonDeleteReservation.Visible = false;
+            this.sfButtonDeleteReservation.Click += new System.EventHandler(this.sfButtonDeleteReservation_Click);
             // 
-            // sfButtonReserve
+            // sfButtonEditReservation
             // 
-            this.sfButtonReserve.Font = new System.Drawing.Font("Segoe UI Semibold", 9F);
-            this.sfButtonReserve.Location = new System.Drawing.Point(668, 386);
-            this.sfButtonReserve.Name = "sfButtonReserve";
-            this.sfButtonReserve.Size = new System.Drawing.Size(85, 22);
-            this.sfButtonReserve.TabIndex = 90;
-            this.sfButtonReserve.Text = "Reserve";
-            this.sfButtonReserve.Visible = false;
-            this.sfButtonReserve.Click += new System.EventHandler(this.sfButtonReserve_Click);
+            this.sfButtonEditReservation.BackColor = System.Drawing.Color.White;
+            this.sfButtonEditReservation.Font = new System.Drawing.Font("Segoe UI Semibold", 9F);
+            this.sfButtonEditReservation.ForeColor = System.Drawing.Color.Transparent;
+            this.sfButtonEditReservation.ImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.sfButtonEditReservation.Location = new System.Drawing.Point(759, 375);
+            this.sfButtonEditReservation.Name = "sfButtonEditReservation";
+            this.sfButtonEditReservation.Size = new System.Drawing.Size(40, 43);
+            this.sfButtonEditReservation.Style.BackColor = System.Drawing.Color.White;
+            this.sfButtonEditReservation.Style.ForeColor = System.Drawing.Color.Transparent;
+            this.sfButtonEditReservation.Style.Image = global::FitnessApplication.Properties.Resources.pencil;
+            this.sfButtonEditReservation.TabIndex = 94;
+            this.sfButtonEditReservation.TabStop = false;
+            this.sfButtonEditReservation.UseVisualStyleBackColor = false;
+            this.sfButtonEditReservation.Visible = false;
+            this.sfButtonEditReservation.Click += new System.EventHandler(this.sfButtonEditReservation_Click);
             // 
-            // labelseats
+            // sfButtonCancelReservEditing
             // 
-            this.labelseats.AutoSize = true;
-            this.labelseats.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelseats.Location = new System.Drawing.Point(478, 386);
-            this.labelseats.Name = "labelseats";
-            this.labelseats.Size = new System.Drawing.Size(94, 22);
-            this.labelseats.TabIndex = 91;
-            this.labelseats.Text = "No. Seats:";
-            this.labelseats.Visible = false;
-            // 
-            // labelReservationExists
-            // 
-            this.labelReservationExists.AutoSize = true;
-            this.labelReservationExists.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelReservationExists.ForeColor = System.Drawing.Color.IndianRed;
-            this.labelReservationExists.Location = new System.Drawing.Point(584, 417);
-            this.labelReservationExists.Name = "labelReservationExists";
-            this.labelReservationExists.Size = new System.Drawing.Size(169, 16);
-            this.labelReservationExists.TabIndex = 92;
-            this.labelReservationExists.Text = "Reservation already exists.";
+            this.sfButtonCancelReservEditing.BackColor = System.Drawing.Color.White;
+            this.sfButtonCancelReservEditing.Font = new System.Drawing.Font("Segoe UI Semibold", 9F);
+            this.sfButtonCancelReservEditing.ForeColor = System.Drawing.Color.Transparent;
+            this.sfButtonCancelReservEditing.Location = new System.Drawing.Point(759, 375);
+            this.sfButtonCancelReservEditing.Name = "sfButtonCancelReservEditing";
+            this.sfButtonCancelReservEditing.Size = new System.Drawing.Size(40, 43);
+            this.sfButtonCancelReservEditing.Style.BackColor = System.Drawing.Color.White;
+            this.sfButtonCancelReservEditing.Style.ForeColor = System.Drawing.Color.Transparent;
+            this.sfButtonCancelReservEditing.Style.Image = global::FitnessApplication.Properties.Resources.cross;
+            this.sfButtonCancelReservEditing.TabIndex = 95;
+            this.sfButtonCancelReservEditing.TabStop = false;
+            this.sfButtonCancelReservEditing.UseVisualStyleBackColor = false;
+            this.sfButtonCancelReservEditing.Visible = false;
+            this.sfButtonCancelReservEditing.Click += new System.EventHandler(this.sfButtonCancelReservEditing_Click);
             // 
             // AcademySessions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(836, 683);
+            this.Controls.Add(this.sfButtonCancelReservEditing);
+            this.Controls.Add(this.sfButtonEditReservation);
+            this.Controls.Add(this.sfButtonDeleteReservation);
             this.Controls.Add(this.labelReservationExists);
             this.Controls.Add(this.labelseats);
             this.Controls.Add(this.sfButtonReserve);
@@ -517,5 +576,8 @@
         private Syncfusion.WinForms.Controls.SfButton sfButtonReserve;
         private System.Windows.Forms.Label labelseats;
         private System.Windows.Forms.Label labelReservationExists;
+        private Syncfusion.WinForms.Controls.SfButton sfButtonDeleteReservation;
+        private Syncfusion.WinForms.Controls.SfButton sfButtonEditReservation;
+        private Syncfusion.WinForms.Controls.SfButton sfButtonCancelReservEditing;
     }
 }

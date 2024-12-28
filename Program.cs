@@ -20,6 +20,8 @@ namespace FitnessApplication
             //Application.Run(new Academies("FlexFitAcademy", 5));
             Application.Run(new Academies("KickFitAcademy", 1));
            // Application.Run(new AcademiesViewSessions("ZenYogaAcademy", 1,"academy"));
+            //Application.Run(new MemberViewMealPlans("alice_johnson", 1));
+           // Application.Run(new AcademiesViewSessions("alice_johnson", 1, "member"));
         }
     }
 }
